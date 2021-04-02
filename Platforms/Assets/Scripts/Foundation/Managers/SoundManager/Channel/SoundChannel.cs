@@ -7,11 +7,16 @@ namespace Foundation
 {
     public sealed class SoundChannel : MonoBehaviour, ISoundChannel
     {
-        [SerializeField] string channelID;
+        [SerializeField]
+        string channelID;
+
         public string Name => channelID;
 
         AudioMixerGroup mixerGroup;
-        [Inject] SoundSource.Factory soundSourceFactory = default;
+
+        [Inject]
+        SoundSource.Factory soundSourceFactory = default;
+
         List<SoundSource> soundSources = new List<SoundSource>();
         bool volumeChanged = false;
 
@@ -19,34 +24,47 @@ namespace Foundation
         public float MixerNormal = 0.0f;
 
         [Header("Debug")]
+        [ReadOnly]
+        [SerializeField]
+        bool channelEnabled = true;
 
-        [ReadOnly] [SerializeField] bool channelEnabled = true;
-        public bool Enabled { get {
-                return channelEnabled;
-            } set {
-                if (channelEnabled != value) {
+        public bool Enabled
+        {
+            get { return channelEnabled; }
+            set
+            {
+                if (channelEnabled != value)
+                {
                     channelEnabled = value;
                     volumeChanged = true;
                     PlayerPrefs.SetInt($"{Name}Enabled", value ? 1 : 0);
                     PlayerPrefs.Save();
                 }
-            } }
+            }
+        }
 
-        [ReadOnly] [SerializeField] float volume = 1.0f;
-        public float Volume { get {
-                return volume;
-            } set {
-                if (!Mathf.Approximately(volume, value)) {
+        [ReadOnly]
+        [SerializeField]
+        float volume = 1.0f;
+
+        public float Volume
+        {
+            get { return volume; }
+            set
+            {
+                if (!Mathf.Approximately(volume, value))
+                {
                     volume = value;
                     volumeChanged = true;
                     PlayerPrefs.SetFloat($"{Name}Volume", value);
                     PlayerPrefs.Save();
                 }
-            } }
+            }
+        }
 
         public SoundHandle Play(AudioClip clip, bool loop, bool surviveSceneLoad, float volume)
         {
-            return PlayAt((Transform)null, clip, loop, surviveSceneLoad, volume);
+            return PlayAt((Transform) null, clip, loop, surviveSceneLoad, volume);
         }
 
         public SoundHandle PlayAt(GameObject gameObject, AudioClip clip, bool loop, bool surviveSceneLoad, float volume)
@@ -73,7 +91,8 @@ namespace Foundation
             source.TargetTransform = transform;
             soundSources.Add(source);
 
-            if (clip != null && (channelEnabled || loop)) {
+            if (clip != null && (channelEnabled || loop))
+            {
                 source.AudioSource.clip = clip;
                 source.AudioSource.Play();
             }
@@ -83,14 +102,17 @@ namespace Foundation
 
         public void Stop(SoundHandle handle)
         {
-            if (!handle.IsValid) {
+            if (!handle.IsValid)
+            {
                 DebugOnly.Error("Attempted to stop sound with an invalid SoundHandle.");
                 return;
             }
 
             int n = soundSources.Count;
-            while (n-- > 0) {
-                if (soundSources[n] == handle.Source) {
+            while (n-- > 0)
+            {
+                if (soundSources[n] == handle.Source)
+                {
                     soundSources.RemoveAt(n);
                     handle.Source.Dispose();
                     return;
@@ -103,7 +125,8 @@ namespace Foundation
         public void StopAllSounds(bool includingSurviveSceneLoad)
         {
             int n = soundSources.Count;
-            while (n-- > 0) {
+            while (n-- > 0)
+            {
                 var source = soundSources[n];
                 if (!includingSurviveSceneLoad && source.SurviveSceneLoad)
                     continue;
@@ -125,27 +148,32 @@ namespace Foundation
 
         internal void InternalUpdate(AudioMixer mixer, AudioListener listener)
         {
-            if (volumeChanged) {
+            if (volumeChanged)
+            {
                 volumeChanged = false;
                 float targetVolume = (channelEnabled ? Mathf.Lerp(MixerSilent, MixerNormal, volume) : MixerSilent);
                 mixer.SetFloat($"{Name}Volume", targetVolume);
             }
 
             int n = soundSources.Count;
-            while (n-- > 0) {
+            while (n-- > 0)
+            {
                 var source = soundSources[n];
-                if (source == null) {
+                if (source == null)
+                {
                     soundSources.RemoveAt(n);
                     continue;
                 }
 
-                if (!source.AudioSource.isPlaying) {
+                if (!source.AudioSource.isPlaying)
+                {
                     soundSources.RemoveAt(n);
                     source.Dispose();
                     continue;
                 }
 
-                if (!channelEnabled && !source.AudioSource.loop) {
+                if (!channelEnabled && !source.AudioSource.loop)
+                {
                     soundSources.RemoveAt(n);
                     source.Dispose();
                     continue;
