@@ -15,10 +15,12 @@ namespace Foundation
             Container.BindFactory<AudioClip, SoundSource, SoundSource.Factory>()
                 .FromMonoPoolableMemoryPool<AudioClip, SoundSource>(opts => {
                     opts.WithInitialSize(PoolSize);
-                    if (Prefab == null)
+                    if (Prefab == null) {
                         opts.FromNewComponentOnNewGameObject().UnderTransform(transform);
-                    else
+                    }
+                    else {
                         opts.FromComponentInNewPrefab(Prefab).UnderTransform(transform);
+                    }
                 });
         }
     }

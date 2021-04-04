@@ -13,8 +13,9 @@ namespace Foundation
             if (Connected != null) {
                 Vector3 pos = transform.position;
                 foreach (var point in Connected) {
-                    if (point != null)
+                    if (point != null) {
                         Gizmos.DrawLine(pos, point.transform.position);
+                    }
                 }
             }
         }

@@ -12,24 +12,29 @@ namespace Foundation
 
         public override bool CanShoot(IInventoryStorage inventory)
         {
-            if (AmmoItem == null)
+            if (AmmoItem == null) {
                 return true;
+            }
 
-            if (inventory == null)
+            if (inventory == null) {
                 return false;
+            }
 
             return inventory.CountOf(AmmoItem) > 0;
         }
 
         public override bool PrepareShoot(ICharacterEffectManager attackerEffectManager, IInventoryStorage inventory, IWeaponAttack attack)
         {
-            if (AmmoItem != null && (inventory == null || !inventory.Remove(AmmoItem, 1)))
+            if (AmmoItem != null && (inventory == null || !inventory.Remove(AmmoItem, 1))) {
                 return false;
+            }
 
-            if (attack is IRangedWeaponAttack rangedAttack)
+            if (attack is IRangedWeaponAttack rangedAttack) {
                 rangedAttack.BeginRangedAttack(Parameters, Damage);
-            else
+            }
+            else {
                 DebugOnly.Error("Using ranged weapon with wrong attack.");
+            }
 
             return true;
         }

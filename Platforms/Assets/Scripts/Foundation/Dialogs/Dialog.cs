@@ -15,14 +15,17 @@ namespace Foundation
         {
             if (Nodes != null) {
                 foreach (var node in Nodes) {
-                    if (node.NextIds != null)
+                    if (node.NextIds != null) {
                         node.NextIds.Clear();
-                    else
+                    }
+                    else {
                         node.NextIds = new List<int>();
+                    }
 
                     if (node.Next != null) {
-                        foreach (var next in node.Next)
+                        foreach (var next in node.Next) {
                             node.NextIds.Add(next.UniqueId);
+                        }
                     }
                 }
             }
@@ -30,10 +33,12 @@ namespace Foundation
 
         public void OnAfterDeserialize()
         {
-            if (RootNodes == null)
+            if (RootNodes == null) {
                 RootNodes = new List<DialogNode>();
-            else
+            }
+            else {
                 RootNodes.Clear();
+            }
 
             if (Nodes != null) {
                 var dict = new Dictionary<int, DialogNode>();
@@ -44,10 +49,12 @@ namespace Foundation
                 }
 
                 foreach (var node in Nodes) {
-                    if (node.Next != null)
+                    if (node.Next != null) {
                         node.Next.Clear();
-                    else
+                    }
+                    else {
                         node.Next = new List<DialogNode>();
+                    }
 
                     if (node.NextIds != null) {
                         foreach (var nextId in node.NextIds) {
@@ -58,8 +65,9 @@ namespace Foundation
                     }
                 }
 
-                foreach (var node in nodesWithoutParent)
+                foreach (var node in nodesWithoutParent) {
                     RootNodes.Add(node);
+                }
             }
         }
     }

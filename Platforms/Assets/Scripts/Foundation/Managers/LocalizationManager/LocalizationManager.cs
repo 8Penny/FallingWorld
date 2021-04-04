@@ -20,8 +20,9 @@ namespace Foundation
                     currentLanguage = value;
                     PlayerPrefs.SetString("Language", currentLanguage.ToString());
                     PlayerPrefs.Save();
-                    foreach (var notify in OnLanguageChanged.Enumerate())
+                    foreach (var notify in OnLanguageChanged.Enumerate()) {
                         notify.Do();
+                    }
                 }
             } }
 

@@ -18,12 +18,15 @@ namespace Foundation
                 float distA = (Dst - a.point).sqrMagnitude; // FIXME: use hit.distance?
                 float distB = (Dst - b.point).sqrMagnitude;
 
-                if (distA < distB)
+                if (distA < distB) {
                     return -1;
-                else if (distA > distB)
+                }
+                else if (distA > distB) {
                     return 1;
-                else
+                }
+                else {
                     return 0;
+                }
             }
         }
 
@@ -43,8 +46,9 @@ namespace Foundation
             var context = hitInfo.collider.GetComponentInParent<Context>();
             if (context != null) {
                 var health = context.Container.TryResolve<ICharacterHealth>();
-                if (health != null)
+                if (health != null) {
                     health.Damage(attacker, damage);
+                }
             }
         }
 
@@ -59,8 +63,9 @@ namespace Foundation
                 Vector3 dst;
 
                 Ray ray = new Ray(from, dir);
-                if (!Physics.Raycast(ray, out var hitInfo, parameters.MaxDistance, layerMask))
-                    dst = from + ray.direction * parameters.MaxDistance;
+                if (!Physics.Raycast(ray, out var hitInfo, parameters.MaxDistance, layerMask)) {
+                    dst = @from + ray.direction * parameters.MaxDistance;
+                }
                 else {
                     dst = hitInfo.point;
 
@@ -79,8 +84,9 @@ namespace Foundation
                                 Vector3 ricochetDir = Vector3.Reflect(ray.direction, hitInfo.normal);
                                 Vector3 ricochetDst;
                                 Ray ricochetRay = new Ray(dst, ricochetDir);
-                                if (!Physics.Raycast(ricochetRay, out var ricochetHitInfo, distance, layerMask))
-                                    ricochetDst = from + ricochetDir * distance;
+                                if (!Physics.Raycast(ricochetRay, out var ricochetHitInfo, distance, layerMask)) {
+                                    ricochetDst = @from + ricochetDir * distance;
+                                }
                                 else {
                                     ricochetDst = ricochetHitInfo.point;
                                     DoDamage(ricochetHitInfo, attacker, damage * 0.5f);
@@ -111,8 +117,9 @@ namespace Foundation
                                     }
                                 }
 
-                                if (!found)
+                                if (!found) {
                                     passDst = dst + passRay.direction * distance;
+                                }
 
                                 shootTraceFactory.Create(dst, passDst);
                                 break;

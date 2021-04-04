@@ -22,25 +22,32 @@ namespace Foundation
                 this.manager = manager;
 
                 foreach (var camera in manager.AllCameras) {
-                    if (camera is IFirstPersonCamera firstPerson && firstPerson.PlayerIndex == playerIndex)
+                    if (camera is IFirstPersonCamera firstPerson && firstPerson.PlayerIndex == playerIndex) {
                         FirstPersonCameras.Add(firstPerson);
-                    if (camera is IThirdPersonCamera thirdPerson && thirdPerson.PlayerIndex == playerIndex)
+                    }
+
+                    if (camera is IThirdPersonCamera thirdPerson && thirdPerson.PlayerIndex == playerIndex) {
                         ThirdPersonCameras.Add(thirdPerson);
+                    }
                 }
             }
 
             ICamera ChooseCamera()
             {
                 if (FirstPerson) {
-                    if (FirstPersonCameras.Count > 0)
+                    if (FirstPersonCameras.Count > 0) {
                         return FirstPersonCameras[0];
-                    else
+                    }
+                    else {
                         DebugOnly.Error("No first person cameras in the scene.");
+                    }
                 } else {
-                    if (ThirdPersonCameras.Count > 0)
+                    if (ThirdPersonCameras.Count > 0) {
                         return ThirdPersonCameras[0];
-                    else
+                    }
+                    else {
                         DebugOnly.Error("No third person cameras in the scene.");
+                    }
                 }
 
                 return null;
@@ -81,8 +88,9 @@ namespace Foundation
                 return;
             }
 
-            while (playerIndex >= perPlayer.Count)
+            while (playerIndex >= perPlayer.Count) {
                 perPlayer.Add(null);
+            }
 
             var player = perPlayer[playerIndex];
             if (player == null) {
@@ -95,8 +103,9 @@ namespace Foundation
 
         void IOnPlayerRemoved.Do(int playerIndex)
         {
-            if (playerIndex >= 0 && playerIndex < perPlayer.Count)
+            if (playerIndex >= 0 && playerIndex < perPlayer.Count) {
                 perPlayer[playerIndex] = null;
+            }
 
             UpdateCameras(true);
         }
@@ -109,8 +118,9 @@ namespace Foundation
 
             int n = playerManager.NumPlayers;
             for (int i = 0; i < n; i++) {
-                if (i >= perPlayer.Count)
+                if (i >= perPlayer.Count) {
                     ((IOnPlayerAdded)this).Do(i);
+                }
             }
 
             UpdateCameras(true);
@@ -124,8 +134,9 @@ namespace Foundation
         void UpdateCamera(ICamera camera)
         {
             int playerIndex = camera.PlayerIndex;
-            if (playerIndex < 0)
+            if (playerIndex < 0) {
                 camera.GameObject.SetActive(false);
+            }
             else {
                 PerPlayer player = Player(playerIndex);
                 camera.GameObject.SetActive(player != null && camera == player.CurrentCamera);
@@ -134,23 +145,24 @@ namespace Foundation
 
         void UpdateCameras(bool force = false)
         {
-            bool changed = force;
-            foreach (var player in perPlayer) {
-                if (player.UpdateCamera())
-                    changed = true;
-            }
-
-            if (changed) {
-                foreach (var camera in allCameras)
-                    UpdateCamera(camera);
-            }
+            // bool changed = force;
+            // foreach (var player in perPlayer) {
+            //     if (player.UpdateCamera())
+            //         changed = true;
+            // }
+            //
+            // if (changed) {
+            //     foreach (var camera in allCameras)
+            //         UpdateCamera(camera);
+            // }
         }
 
         public void ToggleFirstThirdPersonCamera(int playerIndex)
         {
             PerPlayer player = Player(playerIndex);
-            if (player != null)
+            if (player != null) {
                 player.FirstPerson = !player.FirstPerson;
+            }
         }
 
         public void AddFirstPersonCamera(IFirstPersonCamera camera)
@@ -159,8 +171,9 @@ namespace Foundation
 
             if (camera.PlayerIndex >= 0) {
                 PerPlayer player = Player(camera.PlayerIndex);
-                if (player != null)
+                if (player != null) {
                     player.FirstPersonCameras.Add(camera);
+                }
             }
 
             allCameras.Add(camera);
@@ -171,8 +184,9 @@ namespace Foundation
         {
             if (camera.PlayerIndex >= 0) {
                 PerPlayer player = Player(camera.PlayerIndex);
-                if (player != null)
+                if (player != null) {
                     player.FirstPersonCameras.Remove(camera);
+                }
             }
 
             allCameras.Remove(camera);
@@ -185,8 +199,9 @@ namespace Foundation
 
             if (camera.PlayerIndex >= 0) {
                 PerPlayer player = Player(camera.PlayerIndex);
-                if (player != null)
+                if (player != null) {
                     player.ThirdPersonCameras.Add(camera);
+                }
             }
 
             allCameras.Add(camera);
@@ -197,8 +212,9 @@ namespace Foundation
         {
             if (camera.PlayerIndex >= 0) {
                 PerPlayer player = Player(camera.PlayerIndex);
-                if (player != null)
+                if (player != null) {
                     player.ThirdPersonCameras.Remove(camera);
+                }
             }
 
             allCameras.Remove(camera);

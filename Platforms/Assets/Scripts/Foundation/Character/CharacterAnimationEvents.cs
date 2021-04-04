@@ -6,8 +6,9 @@ namespace Foundation
 
         void AttackEnded()
         {
-            foreach (var it in OnAttackEnded.Enumerate())
+            foreach (var it in OnAttackEnded.Enumerate()) {
                 it.Do();
+            }
         }
     }
 }

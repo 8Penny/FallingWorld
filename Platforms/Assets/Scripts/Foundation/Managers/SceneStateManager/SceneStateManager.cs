@@ -15,8 +15,9 @@ namespace Foundation
         public override void Start()
         {
             base.Start();
-            foreach (var state in InitialStates)
+            foreach (var state in InitialStates) {
                 Push(state);
+            }
         }
 
         public void Push(ISceneState state)
@@ -46,8 +47,9 @@ namespace Foundation
         IEnumerable<ISceneState> CachedGameStates()
         {
             int n;
-            if (!statesListChanged)
+            if (!statesListChanged) {
                 n = statesCache.Count;
+            }
             else {
                 statesListChanged = false;
                 statesCache.Clear();
@@ -64,14 +66,16 @@ namespace Foundation
                         var oldState = CurrentState;
                         CurrentState = statesCache[n - 1];
                         (CurrentState as ISceneStateInternal)?.InternalBecomeTopmost();
-                        if (oldState != null)
+                        if (oldState != null) {
                             (oldState as ISceneStateInternal)?.InternalResignTopmost();
+                        }
                     }
                 }
 
                 int index = 0;
-                foreach (var it in statesCache)
+                foreach (var it in statesCache) {
                     (it as ISceneStateInternal)?.InternalSetSortingOrder(index++);
+                }
             }
 
             while (n-- > 0) {
@@ -87,11 +91,13 @@ namespace Foundation
 
             foreach (var state in CachedGameStates()) {
                 if (update) {
-                    foreach (var ticker in state.OnUpdate.Enumerate())
+                    foreach (var ticker in state.OnUpdate.Enumerate()) {
                         ticker.Do(timeDelta);
+                    }
                 } else {
-                    foreach (var ticker in state.OnUpdateDuringPause.Enumerate())
+                    foreach (var ticker in state.OnUpdateDuringPause.Enumerate()) {
                         ticker.Do(timeDelta);
+                    }
                 }
 
                 update = update && state.UpdateParentState;
@@ -101,10 +107,13 @@ namespace Foundation
         void FixedUpdate()
         {
             foreach (var state in CachedGameStates()) {
-                foreach (var ticker in state.OnFixedUpdate.Enumerate())
+                foreach (var ticker in state.OnFixedUpdate.Enumerate()) {
                     ticker.Do();
-                if (!state.UpdateParentState)
+                }
+
+                if (!state.UpdateParentState) {
                     break;
+                }
             }
         }
 
@@ -112,10 +121,13 @@ namespace Foundation
         {
             float timeDelta = Time.deltaTime;
             foreach (var state in CachedGameStates()) {
-                foreach (var ticker in state.OnLateUpdate.Enumerate())
+                foreach (var ticker in state.OnLateUpdate.Enumerate()) {
                     ticker.Do(timeDelta);
-                if (!state.UpdateParentState)
+                }
+
+                if (!state.UpdateParentState) {
                     break;
+                }
             }
         }
     }

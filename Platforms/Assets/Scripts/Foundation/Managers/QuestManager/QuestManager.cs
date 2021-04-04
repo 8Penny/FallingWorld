@@ -36,8 +36,9 @@ namespace Foundation
             activeQuests.Add(quest);
             activeQuestsSet.Add(quest);
 
-            foreach (var it in OnQuestStarted.Enumerate())
+            foreach (var it in OnQuestStarted.Enumerate()) {
                 it.Do(quest);
+            }
 
             string questName = localizationManager.GetString(quest.Name);
             notificationManager.DisplayMessage(string.Format(localizationManager.GetString(QuestStartedMessage), questName));
@@ -45,8 +46,9 @@ namespace Foundation
 
         public void CompleteQuest(Quest quest)
         {
-            if (!activeQuestsSet.Contains(quest))
+            if (!activeQuestsSet.Contains(quest)) {
                 DebugOnly.Error($"Attempted to complete non-started quest {quest.name}.");
+            }
             else {
                 activeQuests.Remove(quest);
                 activeQuestsSet.Remove(quest);
@@ -56,8 +58,9 @@ namespace Foundation
 
         public void FailQuest(Quest quest)
         {
-            if (!activeQuestsSet.Contains(quest))
+            if (!activeQuestsSet.Contains(quest)) {
                 DebugOnly.Error($"Attempted to complete non-started quest {quest.name}.");
+            }
             else {
                 activeQuests.Remove(quest);
                 activeQuestsSet.Remove(quest);
@@ -114,8 +117,9 @@ namespace Foundation
             completedQuests.Add(quest);
             completedQuestsSet.Add(quest);
 
-            foreach (var it in OnQuestCompleted.Enumerate())
+            foreach (var it in OnQuestCompleted.Enumerate()) {
                 it.Do(quest);
+            }
 
             string questName = localizationManager.GetString(quest.Name);
             notificationManager.DisplayMessage(string.Format(localizationManager.GetString(QuestCompletedMessage), questName));
@@ -126,8 +130,9 @@ namespace Foundation
             failedQuests.Add(quest);
             failedQuestsSet.Add(quest);
 
-            foreach (var it in OnQuestFailed.Enumerate())
+            foreach (var it in OnQuestFailed.Enumerate()) {
                 it.Do(quest);
+            }
 
             string questName = localizationManager.GetString(quest.Name);
             notificationManager.DisplayMessage(string.Format(localizationManager.GetString(QuestFailedMessage), questName));

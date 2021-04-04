@@ -20,14 +20,17 @@ namespace Foundation
 
         public string GetLocalization(LocalizedString str, Language language)
         {
-            if (TranslatedStrings == null)
+            if (TranslatedStrings == null) {
                 return str.LocalizationID;
+            }
 
-            if (!TranslatedStrings.TryGetValue(str.LocalizationID, out var dict))
+            if (!TranslatedStrings.TryGetValue(str.LocalizationID, out var dict)) {
                 return str.LocalizationID;
+            }
 
-            if (!dict.TryGetValue(language, out var localized))
+            if (!dict.TryGetValue(language, out var localized)) {
                 return str.LocalizationID;
+            }
 
             return localized;
         }
@@ -48,8 +51,9 @@ namespace Foundation
         {
             if (editorInstance == null) {
                 editorInstance = UnityEditor.AssetDatabase.LoadAssetAtPath<LocalizationData>(AssetPath);
-                if (editorInstance == null)
+                if (editorInstance == null) {
                     return str.LocalizationID;
+                }
             }
 
             return editorInstance.GetLocalization(str, language);
@@ -57,8 +61,9 @@ namespace Foundation
 
         public static string[] EditorGetLocalizationIDs()
         {
-            if (editorStringIds != null)
+            if (editorStringIds != null) {
                 return editorStringIds;
+            }
 
             if (editorInstance == null) {
                 editorInstance = UnityEditor.AssetDatabase.LoadAssetAtPath<LocalizationData>(AssetPath);
@@ -85,8 +90,9 @@ namespace Foundation
         {
             Strings = new List<StringInfo>();
 
-            if (TranslatedStrings == null)
+            if (TranslatedStrings == null) {
                 return;
+            }
 
             foreach (var it in TranslatedStrings) {
                 var languages = new Language[it.Value.Count];
@@ -107,13 +113,16 @@ namespace Foundation
         {
             TranslatedStrings = new Dictionary<string, Dictionary<Language, string>>();
 
-            if (Strings == null)
+            if (Strings == null) {
                 return;
+            }
 
             foreach (var it in Strings) {
                 var dict = new Dictionary<Language, string>();
-                for (int i = 0; i < it.Languages.Length; i++)
+                for (int i = 0; i < it.Languages.Length; i++) {
                     dict[it.Languages[i]] = it.Strings[i];
+                }
+
                 TranslatedStrings[it.Key] = dict;
             }
         }

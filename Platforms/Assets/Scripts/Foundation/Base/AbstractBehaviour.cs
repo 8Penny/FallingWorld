@@ -6,8 +6,10 @@ namespace Foundation
     {
         ObserverHandleManager observers;
         protected ObserverHandleManager Observers { get {
-                if (observers == null)
+                if (observers == null) {
                     observers = new ObserverHandleManager();
+                }
+
                 return observers;
             } }
 
@@ -34,8 +36,9 @@ namespace Foundation
 
         protected virtual void OnDisable()
         {
-            if (observers != null)
+            if (observers != null) {
                 observers.Clear();
+            }
         }
     }
 }

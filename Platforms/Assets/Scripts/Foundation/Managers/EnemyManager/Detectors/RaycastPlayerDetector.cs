@@ -23,8 +23,9 @@ namespace Foundation
                 Vector3 direction = target - origin;
 
                 float distanceToPlayer = direction.magnitude;
-                if (distanceToPlayer > DetectionDistance)
+                if (distanceToPlayer > DetectionDistance) {
                     continue;
+                }
 
                 direction /= distanceToPlayer;
                 var (hits, hitCount) = PhysicsUtility.CastRay(origin, direction, DetectionDistance);
@@ -56,8 +57,9 @@ namespace Foundation
                     }
                 }
 
-                if (hitPlayer)
+                if (hitPlayer) {
                     return player;
+                }
             }
 
             return null;

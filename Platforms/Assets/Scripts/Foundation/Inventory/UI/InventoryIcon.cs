@@ -31,8 +31,9 @@ namespace Foundation
             Pool = pool;
             image.sprite = item.Icon;
 
-            if (count == 1)
+            if (count == 1) {
                 Overlay.SetActive(false);
+            }
             else {
                 Text.text = count.ToString();
                 Overlay.SetActive(true);

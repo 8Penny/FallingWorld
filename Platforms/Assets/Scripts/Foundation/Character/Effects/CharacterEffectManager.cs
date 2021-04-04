@@ -47,8 +47,9 @@ namespace Foundation
                     activeEffects.RemoveAt(n);
                     statePool.Push(state);
 
-                    foreach (var it in OnEffectEnded.Enumerate())
+                    foreach (var it in OnEffectEnded.Enumerate()) {
                         it.Do(effect);
+                    }
                 }
             }
         }
@@ -70,10 +71,12 @@ namespace Foundation
             }
 
             EffectState state;
-            if (statePool.Count > 0)
+            if (statePool.Count > 0) {
                 state = statePool.Pop();
-            else
+            }
+            else {
                 state = new EffectState();
+            }
 
             state.TimeDelta = 0.0f;
             state.Effect = effect;
@@ -81,8 +84,9 @@ namespace Foundation
             state.Enumerator = effect.Apply(this, state);
             activeEffects.Add(state);
 
-            foreach (var it in OnEffectStarted.Enumerate())
+            foreach (var it in OnEffectStarted.Enumerate()) {
                 it.Do(effect);
+            }
         }
     }
 }

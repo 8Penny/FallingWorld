@@ -22,8 +22,9 @@ namespace Foundation
         void IOnLateUpdate.Do(float timeDelta)
         {
             IPlayer player = playerManager.GetPlayer(Player);
-            if (player != null)
+            if (player != null) {
                 transform.position = player.Position + Offset;
+            }
         }
     }
 }

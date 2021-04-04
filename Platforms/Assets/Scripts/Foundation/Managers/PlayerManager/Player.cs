@@ -46,20 +46,23 @@ namespace Foundation
 
         void IOnCharacterHealed.Do(ICharacterHealth health, IAttacker attacker, float amount, float newHealth)
         {
-            foreach (var it in playerManager.OnPlayerHealed.Enumerate())
+            foreach (var it in playerManager.OnPlayerHealed.Enumerate()) {
                 it.Do(index, attacker, amount, newHealth);
+            }
         }
 
         void IOnCharacterDamaged.Do(ICharacterHealth health, IAttacker attacker, float amount, float newHealth)
         {
-            foreach (var it in playerManager.OnPlayerDamaged.Enumerate())
+            foreach (var it in playerManager.OnPlayerDamaged.Enumerate()) {
                 it.Do(index, attacker, amount, newHealth);
+            }
         }
 
         void IOnCharacterDied.Do(ICharacterHealth health, IAttacker attacker)
         {
-            foreach (var it in playerManager.OnPlayerDied.Enumerate())
+            foreach (var it in playerManager.OnPlayerDied.Enumerate()) {
                 it.Do(index, attacker);
+            }
         }
     }
 }

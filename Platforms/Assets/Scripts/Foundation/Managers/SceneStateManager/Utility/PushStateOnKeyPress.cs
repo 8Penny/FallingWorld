@@ -22,8 +22,9 @@ namespace Foundation
         void IOnUpdate.Do(float timeDelta)
         {
             var input = inputManager.InputForPlayer(player.Index);
-            if (input.Action(InputActionName).Triggered)
+            if (input.Action(InputActionName).Triggered) {
                 sceneStateManager.Push(State);
+            }
         }
     }
 }

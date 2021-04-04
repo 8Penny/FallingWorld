@@ -7,7 +7,10 @@ namespace Foundation
     [RequireComponent(typeof(NavMeshAgent))]
     public sealed class CharacterAgent : AbstractService<ICharacterAgent>, ICharacterAgent, IOnUpdate
     {
-        NavMeshAgent agent;
+        public NavMeshAgent agent;
+
+        [SerializeField]
+        private Transform _rotationTransform;
 
         [InjectOptional] ICharacterHealth health = default;
         [Inject] ISceneState state = default;
@@ -23,8 +26,10 @@ namespace Foundation
 
         public void Move(Vector2 dir)
         {
-            if (agent != null)
+            if (agent != null) {
                 agent.Move(new Vector3(dir.x, 0.0f, dir.y));
+                Look(dir);
+            }
         }
 
         public void NavigateTo(Vector2 target)
@@ -37,14 +42,15 @@ namespace Foundation
 
         public void Look(Vector2 dir)
         {
-            CharacterTransform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0.0f, dir.y));
+            _rotationTransform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0.0f, dir.y));
             transform.localRotation = Quaternion.identity;
         }
 
         public void Stop()
         {
-            if (agent != null)
+            if (agent != null) {
                 agent.isStopped = true;
+            }
         }
 
         protected override void OnEnable()
@@ -63,12 +69,10 @@ namespace Foundation
 
             if (UpdatePosition) {
                 CharacterTransform.position = transform.position;
-                transform.localPosition = Vector3.zero;
             }
 
             if (UpdateRotation) {
-                CharacterTransform.rotation = transform.rotation;
-                transform.localRotation = Quaternion.identity;
+                CharacterTransform.rotation = _rotationTransform.rotation;
             }
         }
     }

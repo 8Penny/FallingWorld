@@ -26,20 +26,24 @@ namespace Foundation
         public override void UpdateAI(float deltaTime)
         {
             if (enemy.SeenPlayer != null) {
-                if (!enemy.CanAttackPlayer(enemy.SeenPlayer))
+                if (!enemy.CanAttackPlayer(enemy.SeenPlayer)) {
                     return;
+                }
 
                 var dir = (enemy.SeenPlayer.Position - transform.position).normalized;
-                if (enemy.Agent != null)
+                if (enemy.Agent != null) {
                     enemy.Agent.Look(new Vector2(dir.x, dir.z));
+                }
 
-                if (aimingTimeLeft < 0.0f)
+                if (aimingTimeLeft < 0.0f) {
                     aimingTimeLeft = AimingTime;
+                }
                 else {
                     aimingTimeLeft -= deltaTime;
                     if (aimingTimeLeft <= 0.0f) {
-                        if (enemy.TryAttackPlayer(enemy.SeenPlayer))
+                        if (enemy.TryAttackPlayer(enemy.SeenPlayer)) {
                             cooldownLeft = Cooldown;
+                        }
                     }
                 }
             }

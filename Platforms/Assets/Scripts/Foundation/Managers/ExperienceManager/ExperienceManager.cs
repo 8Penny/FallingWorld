@@ -29,14 +29,16 @@ namespace Foundation
             {
                 if (level != 1) {
                     level = 1;
-                    foreach (var it in manager.OnLevelChanged.Enumerate())
+                    foreach (var it in manager.OnLevelChanged.Enumerate()) {
                         it.Do(playerIndex, level);
+                    }
                 }
 
                 if (experience != 0) {
                     experience = 0;
-                    foreach (var it in manager.OnExperienceChanged.Enumerate())
+                    foreach (var it in manager.OnExperienceChanged.Enumerate()) {
                         it.Do(playerIndex, experience);
+                    }
                 }
             }
 
@@ -54,15 +56,19 @@ namespace Foundation
                     }
 
                     if (levelReached) {
-                        foreach (var it in manager.OnLevelChanged.Enumerate())
+                        foreach (var it in manager.OnLevelChanged.Enumerate()) {
                             it.Do(playerIndex, level);
-                        foreach (var it in manager.OnLevelReached.Enumerate())
+                        }
+
+                        foreach (var it in manager.OnLevelReached.Enumerate()) {
                             it.Do(playerIndex, level);
+                        }
                     }
                 }
 
-                foreach (var it in manager.OnExperienceChanged.Enumerate())
+                foreach (var it in manager.OnExperienceChanged.Enumerate()) {
                     it.Do(playerIndex, experience);
+                }
             }
         }
 
@@ -86,8 +92,9 @@ namespace Foundation
         public void ResetAllPlayers()
         {
             foreach (var it in perPlayer) {
-                if (it != null)
+                if (it != null) {
                     it.Reset();
+                }
             }
 
             perPlayer.Clear();
@@ -95,8 +102,9 @@ namespace Foundation
 
         void IOnPlayerRemoved.Do(int playerIndex)
         {
-            if (playerIndex >= 0 && playerIndex < perPlayer.Count)
+            if (playerIndex >= 0 && playerIndex < perPlayer.Count) {
                 perPlayer[playerIndex] = null;
+            }
         }
 
         public void AddExperience(int player, int experience)
@@ -104,11 +112,13 @@ namespace Foundation
             DebugOnly.Check(player >= 0, "Invalid player.");
             DebugOnly.Check(experience > 0, "Invalid experience amount.");
 
-            foreach (var it in OnExperienceGained.Enumerate())
+            foreach (var it in OnExperienceGained.Enumerate()) {
                 it.Do(player, experience);
+            }
 
-            while (player >= perPlayer.Count)
+            while (player >= perPlayer.Count) {
                 perPlayer.Add(null);
+            }
 
             var playerInfo = perPlayer[player];
             if (playerInfo == null) {
@@ -142,8 +152,9 @@ namespace Foundation
             int level = GetPlayerLevel(player);
 
             var levels = thresholds.ExperienceLevels;
-            if (level - 1 < levels.Length)
+            if (level - 1 < levels.Length) {
                 return levels[level - 1];
+            }
 
             return 0;
         }

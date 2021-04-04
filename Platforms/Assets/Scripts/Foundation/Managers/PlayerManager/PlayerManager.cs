@@ -33,8 +33,9 @@ namespace Foundation
             players.Add(player);
             ++NumPlayers;
 
-            foreach (var observer in OnPlayerAdded.Enumerate())
+            foreach (var observer in OnPlayerAdded.Enumerate()) {
                 observer.Do(index);
+            }
         }
 
         public void RemovePlayer(IPlayer player)
@@ -45,15 +46,17 @@ namespace Foundation
                 --NumPlayers;
                 players[index] = null;
 
-                foreach (var observer in OnPlayerAdded.Enumerate())
+                foreach (var observer in OnPlayerAdded.Enumerate()) {
                     observer.Do(index);
+                }
             }
         }
 
         public IPlayer GetPlayer(int index)
         {
-            if (index < 0 || index >= players.Count)
+            if (index < 0 || index >= players.Count) {
                 return null;
+            }
 
             return players[index];
         }
@@ -64,8 +67,9 @@ namespace Foundation
             float closestDistance = 0.0f;
 
             foreach (var player in players) {
-                if (player == null)
+                if (player == null) {
                     continue;
+                }
 
                 float distance = (closestPlayer.Position - position).sqrMagnitude;
                 if (closestPlayer == null || distance < closestDistance) {
@@ -79,33 +83,40 @@ namespace Foundation
 
         public void GetPlayersSortedByDistanceNonAlloc(Vector3 position, ref List<IPlayer> outputList)
         {
-            if (outputList == null)
+            if (outputList == null) {
                 outputList = new List<IPlayer>(players.Count);
-            else
+            }
+            else {
                 outputList.Clear();
+            }
 
             foreach (var player in players) {
-                if (player != null)
+                if (player != null) {
                     outputList.Add(player);
+                }
             }
 
             outputList.Sort((a, b) => {
                     float distanceSqrA = (a.Position - position).sqrMagnitude;
                     float distanceSqrB = (b.Position - position).sqrMagnitude;
-                    if (distanceSqrA < distanceSqrB)
+                    if (distanceSqrA < distanceSqrB) {
                         return -1;
-                    else if (distanceSqrA > distanceSqrB)
+                    }
+                    else if (distanceSqrA > distanceSqrB) {
                         return 1;
-                    else
+                    }
+                    else {
                         return 0;
-                });
+                    }
+            });
         }
 
         public IEnumerable<IPlayer> EnumeratePlayers()
         {
             foreach (var player in players) {
-                if (player != null)
+                if (player != null) {
                     yield return player;
+                }
             }
         }
     }

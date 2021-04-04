@@ -30,8 +30,9 @@ namespace Foundation
             var context = other.GetComponentInParent<Context>();
             if (context != null) {
                 var dialogs = context.Container.TryResolve<ICharacterDialogs>();
-                if (dialogs == activeDialogs)
+                if (dialogs == activeDialogs) {
                     activeDialogs = null;
+                }
             }
         }
 
@@ -45,8 +46,9 @@ namespace Foundation
         {
             if (activeDialogs != null) {
                 var input = inputManager.InputForPlayer(player.Index);
-                if (input.Action(InputActionName).Triggered)
+                if (input.Action(InputActionName).Triggered) {
                     dialogUI.DisplayDialogs(player, activeDialogs.Portrait, activeDialogs.Dialogs);
+                }
             }
         }
     }

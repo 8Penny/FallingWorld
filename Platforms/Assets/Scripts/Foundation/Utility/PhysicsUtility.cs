@@ -10,12 +10,15 @@ public static class PhysicsUtility
 
         public int Compare(RaycastHit a, RaycastHit b)
         {
-            if (a.distance < b.distance)
+            if (a.distance < b.distance) {
                 return -1;
-            else if (a.distance > b.distance)
+            }
+            else if (a.distance > b.distance) {
                 return 1;
-            else
+            }
+            else {
                 return 0;
+            }
         }
     }
 

@@ -22,8 +22,9 @@ namespace Foundation
 
         void IOnExperienceGained.Do(int player, int experience)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 notificationManager.DisplayMessage(string.Format(localizationManager.GetString(Message), experience));
+            }
         }
     }
 }

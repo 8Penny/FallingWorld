@@ -15,8 +15,10 @@ namespace Foundation
         void UpdateTimeScale()
         {
             float scale = 1.0f;
-            foreach (var handle in handles)
+            foreach (var handle in handles) {
                 scale *= handle.Scale;
+            }
+
             Time.timeScale = scale;
         }
 

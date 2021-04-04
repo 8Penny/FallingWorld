@@ -11,24 +11,29 @@ namespace Foundation
 
         public override bool CanShoot(IInventoryStorage inventory)
         {
-            if (AmmoItem == null)
+            if (AmmoItem == null) {
                 return true;
+            }
 
-            if (inventory == null)
+            if (inventory == null) {
                 return false;
+            }
 
             return inventory.CountOf(AmmoItem) > 0;
         }
 
         public override bool PrepareShoot(ICharacterEffectManager attackerEffectManager, IInventoryStorage inventory, IWeaponAttack attack)
         {
-            if (AmmoItem != null && (inventory == null || !inventory.Remove(AmmoItem, 1)))
+            if (AmmoItem != null && (inventory == null || !inventory.Remove(AmmoItem, 1))) {
                 return false;
+            }
 
-            if (attack is ILauncherWeaponAttack launcherAttack)
+            if (attack is ILauncherWeaponAttack launcherAttack) {
                 launcherAttack.BeginLauncherAttack(Damage);
-            else
+            }
+            else {
                 DebugOnly.Error("Using launcher weapon with wrong attack.");
+            }
 
             return true;
         }

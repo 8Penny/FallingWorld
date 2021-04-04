@@ -31,14 +31,16 @@ namespace Foundation
 
         void IOnExperienceChanged.Do(int player, int experience)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 UpdateText();
+            }
         }
 
         void UpdateText()
         {
-            if (experienceManager.IsPlayerMaxLevel(PlayerIndex))
+            if (experienceManager.IsPlayerMaxLevel(PlayerIndex)) {
                 text.text = localizationManager.GetString(MaxLevelMessage);
+            }
             else {
                 text.text = string.Format(localizationManager.GetString(Format),
                     experienceManager.GetPlayerExperience(PlayerIndex),

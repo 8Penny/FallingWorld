@@ -21,8 +21,9 @@ namespace Foundation
 
         void IOnLevelReached.Do(int player, int level)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 soundManager.Sfx.Play(sound);
+            }
         }
     }
 }

@@ -17,8 +17,9 @@ namespace Foundation
         {
             Texture2D texture = new Texture2D(width, height);
             for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < width; x++) {
                     texture.SetPixel(x, height - y - 1, color[y * width + x]);
+                }
             }
             texture.Apply();
             return texture;

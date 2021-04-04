@@ -17,8 +17,9 @@ namespace Foundation
 
         void IOnCharacterDied.Do(ICharacterHealth health, IAttacker attacker)
         {
-            if (attacker.Player != null)
+            if (attacker.Player != null) {
                 experienceManager.AddExperience(attacker.Player.Index, Experience);
+            }
         }
     }
 }

@@ -35,8 +35,10 @@ namespace Foundation
 
         public ISoundChannel GetChannel(string name)
         {
-            if (channelDict.TryGetValue(name, out var channel))
+            if (channelDict.TryGetValue(name, out var channel)) {
                 return channel;
+            }
+
             DebugOnly.Error($"Sound channel '{name}' was not found.");
             return null;
         }
@@ -59,8 +61,9 @@ namespace Foundation
 
         public void StopMusic()
         {
-            if (currentMusic.IsPlaying)
+            if (currentMusic.IsPlaying) {
                 currentMusic.DOFadeToStop(MusicFadeTime);
+            }
 
             currentMusic = new SoundHandle();
         }
@@ -73,14 +76,16 @@ namespace Foundation
 
         void IOnCurrentSceneUnload.Do()
         {
-            foreach (var channel in Channels)
+            foreach (var channel in Channels) {
                 channel.StopAllSounds(false);
+            }
         }
 
         void Update()
         {
-            foreach (var channel in Channels)
+            foreach (var channel in Channels) {
                 channel.InternalUpdate(Mixer, Listener);
+            }
         }
     }
 }

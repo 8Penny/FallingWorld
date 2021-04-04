@@ -33,26 +33,30 @@ namespace Foundation
 
         void IOnPlayerDamaged.Do(int player, IAttacker attacker, float amount, float newHealth)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 UpdateText();
+            }
         }
 
         void IOnPlayerHealed.Do(int player, IAttacker attacker, float amount, float newHealth)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 UpdateText();
+            }
         }
 
         void IOnPlayerAdded.Do(int player)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 UpdateText();
+            }
         }
 
         void IOnPlayerRemoved.Do(int player)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 UpdateText();
+            }
         }
 
         void UpdateText()

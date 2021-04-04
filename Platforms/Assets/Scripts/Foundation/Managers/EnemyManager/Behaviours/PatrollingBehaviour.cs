@@ -39,8 +39,9 @@ namespace Foundation
 
         public override void ActivateAI()
         {
-            if (!waiting)
+            if (!waiting) {
                 GoToCurrentWaypoint();
+            }
         }
 
         public override void DeactivateAI()
@@ -53,16 +54,19 @@ namespace Foundation
             if (waiting) {
                 agent.Stop();
                 waitTimeLeft -= deltaTime;
-                if (waitTimeLeft > 0.0f)
+                if (waitTimeLeft > 0.0f) {
                     return;
+                }
+
                 waiting = false;
                 currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
                 GoToCurrentWaypoint();
             }
 
             float distance = Vector3.Distance(enemy.Position, waypoints[currentWaypoint].transform.position);
-            if (distance < 0.1f)
+            if (distance < 0.1f) {
                 ArrivedToWaypoint();
+            }
         }
     }
 }

@@ -32,8 +32,9 @@ namespace Foundation
                 var context = collider.GetComponentInParent<Context>();
                 if (context != null) {
                     var health = context.Container.TryResolve<ICharacterHealth>();
-                    if (health != null)
+                    if (health != null) {
                         health.Damage(this, Damage);
+                    }
                 }
             }
         }

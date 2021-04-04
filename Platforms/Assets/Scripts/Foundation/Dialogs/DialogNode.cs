@@ -38,14 +38,17 @@ namespace Foundation
 
         public bool CanShow(IQuestManager questManager)
         {
-            if (hasBeenUsed && !AllowReuse)
+            if (hasBeenUsed && !AllowReuse) {
                 return false;
+            }
 
-            if (NodeAction == Action.StartQuest && questManager.QuestStarted(ActionQuest))
+            if (NodeAction == Action.StartQuest && questManager.QuestStarted(ActionQuest)) {
                 return false;
+            }
 
-            if (NodeCondition == Condition.QuestCompleted && !questManager.QuestCompleted(ConditionQuest))
+            if (NodeCondition == Condition.QuestCompleted && !questManager.QuestCompleted(ConditionQuest)) {
                 return false;
+            }
 
             return true;
         }
@@ -57,12 +60,14 @@ namespace Foundation
 
         public bool CanConnectTo(DialogNode otherNode)
         {
-            if (otherNode == this)
+            if (otherNode == this) {
                 return false;
+            }
 
             foreach (var node in Next) {
-                if (node == otherNode)
+                if (node == otherNode) {
                     return false;
+                }
             }
 
             return true;

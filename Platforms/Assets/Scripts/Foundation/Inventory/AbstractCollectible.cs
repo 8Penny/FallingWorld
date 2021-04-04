@@ -14,8 +14,9 @@ namespace Foundation
     {
         public void Collect(IInventoryStorage otherStorage)
         {
-            foreach (var item in Storage.RawItems)
+            foreach (var item in Storage.RawItems) {
                 otherStorage.Add(item.item, item.count);
+            }
 
             Storage.Clear();
 

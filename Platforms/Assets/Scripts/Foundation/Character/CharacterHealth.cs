@@ -31,13 +31,15 @@ namespace Foundation
                 died = true;
             }
 
-            foreach (var it in OnDamaged.Enumerate())
+            foreach (var it in OnDamaged.Enumerate()) {
                 it.Do(this, attacker, damage, health);
+            }
 
             if (died && !isDead) {
                 isDead = true;
-                foreach (var it in OnDied.Enumerate())
+                foreach (var it in OnDied.Enumerate()) {
                     it.Do(this, attacker);
+                }
             }
         }
 
@@ -46,11 +48,13 @@ namespace Foundation
             DebugOnly.Check(heal >= 0.0f, "Heal is negative.");
 
             health += heal;
-            if (health > MaxHealth)
+            if (health > MaxHealth) {
                 health = MaxHealth;
+            }
 
-            foreach (var it in OnHealed.Enumerate())
+            foreach (var it in OnHealed.Enumerate()) {
                 it.Do(this, attacker, heal, health);
+            }
         }
     }
 }

@@ -11,10 +11,12 @@ namespace Foundation
 
         public override bool PrepareShoot(ICharacterEffectManager attackerEffectManager, IInventoryStorage inventory, IWeaponAttack attack)
         {
-            if (attack is IMeleeWeaponAttack meleeAttack)
+            if (attack is IMeleeWeaponAttack meleeAttack) {
                 meleeAttack.BeginMeleeAttack(Damage, attackerEffectManager, Effects);
-            else
+            }
+            else {
                 DebugOnly.Error("Using melee weapon with wrong attack.");
+            }
 
             return true;
         }

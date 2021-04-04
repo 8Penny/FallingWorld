@@ -35,8 +35,9 @@ namespace Foundation
         {
             if (!isTopmost) {
                 isTopmost = true;
-                foreach (var it in OnBecomeTopmost.Enumerate())
+                foreach (var it in OnBecomeTopmost.Enumerate()) {
                     it.Do();
+                }
             }
         }
 
@@ -44,8 +45,9 @@ namespace Foundation
         {
             if (isTopmost) {
                 isTopmost = false;
-                foreach (var it in OnResignTopmost.Enumerate())
+                foreach (var it in OnResignTopmost.Enumerate()) {
                     it.Do();
+                }
             }
         }
 
@@ -53,8 +55,9 @@ namespace Foundation
         {
             if (!isVisible) {
                 isVisible = true;
-                foreach (var it in OnActivate.Enumerate())
+                foreach (var it in OnActivate.Enumerate()) {
                     it.Do();
+                }
             }
         }
 
@@ -62,8 +65,9 @@ namespace Foundation
         {
             if (isVisible) {
                 isVisible = false;
-                foreach (var it in OnDeactivate.Enumerate())
+                foreach (var it in OnDeactivate.Enumerate()) {
                     it.Do();
+                }
             }
         }
 
@@ -71,8 +75,9 @@ namespace Foundation
         {
             if (sortingOrder != order) {
                 sortingOrder = order;
-                foreach (var it in OnSortingOrderChanged.Enumerate())
+                foreach (var it in OnSortingOrderChanged.Enumerate()) {
                     it.Do(order);
+                }
             }
         }
     }

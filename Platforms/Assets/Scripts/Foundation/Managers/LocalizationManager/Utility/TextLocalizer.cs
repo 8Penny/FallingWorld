@@ -35,13 +35,17 @@ namespace Foundation
       #if UNITY_EDITOR
         void Update()
         {
-            if (Application.IsPlaying(this))
+            if (Application.IsPlaying(this)) {
                 return;
+            }
 
-            if (text == null)
+            if (text == null) {
                 text = GetComponent<TextMeshProUGUI>();
-            if (text != null)
+            }
+
+            if (text != null) {
                 text.text = LocalizationData.EditorGetLocalization(StringID);
+            }
         }
       #endif
     }

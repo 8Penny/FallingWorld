@@ -44,8 +44,10 @@ namespace Foundation
 
         public void Clear()
         {
-            foreach (var icon in icons)
+            foreach (var icon in icons) {
                 icon.Pool.Despawn(icon);
+            }
+
             icons.Clear();
         }
     }

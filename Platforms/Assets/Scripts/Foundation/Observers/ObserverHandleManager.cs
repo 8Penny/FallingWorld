@@ -42,8 +42,10 @@ namespace Foundation
 
         public void Clear()
         {
-            foreach (var handle in handles)
+            foreach (var handle in handles) {
                 handle.Dispose();
+            }
+
             handles.Clear();
         }
     }

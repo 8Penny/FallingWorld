@@ -23,8 +23,9 @@ namespace Foundation
 
         public override void UpdateAI(float deltaTime)
         {
-            if (!enemy.IsAlert)
+            if (!enemy.IsAlert) {
                 agent.NavigateTo(new Vector2(startingPoint.x, startingPoint.z));
+            }
         }
 
         public override void DeactivateAI()

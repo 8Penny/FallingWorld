@@ -29,10 +29,12 @@ namespace Foundation
         {
             if (Effects != null) {
                 foreach (var effect in Effects) {
-                    if (flag)
+                    if (flag) {
                         effect.Play();
-                    else
+                    }
+                    else {
                         effect.Stop();
+                    }
                 }
             }
         }
@@ -44,16 +46,18 @@ namespace Foundation
             transform.SetParent(null);
             EnableEffects(true);
 
-            if (ExplodeOnContact != null)
+            if (ExplodeOnContact != null) {
                 ExplodeOnContact.Damage = damage;
+            }
         }
 
         public void OnSpawned(Transform where, IMemoryPool pool)
         {
             this.pool = pool;
 
-            if (ExplodeOnContact != null)
+            if (ExplodeOnContact != null) {
                 ExplodeOnContact.Revert();
+            }
 
             transform.SetParent(where);
             transform.position = where.position;

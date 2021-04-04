@@ -11,8 +11,9 @@ namespace Foundation
         public bool CanProduceItem(CraftingRecipe recipe, IInventoryStorage inventory)
         {
             foreach (var ingredient in recipe.Ingredients) {
-                if (inventory.CountOf(ingredient.Item) < ingredient.Count)
+                if (inventory.CountOf(ingredient.Item) < ingredient.Count) {
                     return false;
+                }
             }
 
             return true;
@@ -20,13 +21,15 @@ namespace Foundation
 
         public bool ProduceItem(CraftingRecipe recipe, IInventoryStorage inventory)
         {
-            if (!CanProduceItem(recipe, inventory))
+            if (!CanProduceItem(recipe, inventory)) {
                 return false;
+            }
 
             foreach (var ingredient in recipe.Ingredients) {
-                // FIXME: çäåñü âîçìîæíà ïðîáëåìà ñ óòðàòîé ÷àñòè ïðåäìåòîâ
-                if (ingredient.Consumable && !inventory.Remove(ingredient.Item, ingredient.Count))
+                // FIXME: Ð·Ð´ÐµÑÑŒ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð° Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ð° Ñ ÑƒÑ‚Ñ€Ð°Ñ‚Ð¾Ð¹ Ñ‡Ð°ÑÑ‚Ð¸ Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ð¾Ð²
+                if (ingredient.Consumable && !inventory.Remove(ingredient.Item, ingredient.Count)) {
                     return false;
+                }
             }
 
             inventory.Add(recipe.TargetItem, recipe.TargetCount);

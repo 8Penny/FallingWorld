@@ -17,8 +17,9 @@ namespace Foundation
 
         public override void UpdateAI(float deltaTime)
         {
-            if (enemy.SeenPlayer != null)
+            if (enemy.SeenPlayer != null) {
                 agent.NavigateTo(new Vector2(enemy.SeenPlayer.Position.x, enemy.SeenPlayer.Position.z));
+            }
         }
 
         public override void DeactivateAI()

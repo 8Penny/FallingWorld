@@ -60,8 +60,10 @@ namespace Foundation
 
         public void RemoveButtons()
         {
-            foreach (var it in buttons)
+            foreach (var it in buttons) {
                 it.Button.Pool.Despawn(it.Button);
+            }
+
             buttons.Clear();
         }
 

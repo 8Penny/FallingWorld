@@ -30,8 +30,9 @@ namespace Foundation
 
         void IOnLevelChanged.Do(int player, int level)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 UpdateText();
+            }
         }
 
         void UpdateText()

@@ -45,8 +45,9 @@ namespace Foundation
             var edges = new HashSet<(NavigationPoint, NavigationPoint)>();
             foreach (var point1 in points) {
                 foreach (var point2 in points) {
-                    if (!edges.Add((point1, point2)) || !edges.Add((point2, point1)))
+                    if (!edges.Add((point1, point2)) || !edges.Add((point2, point1))) {
                         continue;
+                    }
 
                     var node1 = nodes[point1];
                     var node2 = nodes[point2];
@@ -91,8 +92,9 @@ namespace Foundation
                     var context = hitInfo.transform.GetComponentInParent<Context>();
                     if (context != null) {
                         var hitPlayer = context.Container.TryResolve<IPlayer>();
-                        if (hitPlayer != null)
+                        if (hitPlayer != null) {
                             return true;
+                        }
                     }
                 }
             }
@@ -102,11 +104,13 @@ namespace Foundation
 
         void FindPath(Vector3 from, NavigationPoint to, List<Vector3> result)
         {
-            if (pathFinder == null)
+            if (pathFinder == null) {
                 pathFinder = new PathFinder();
+            }
 
-            foreach (var it in nodes)
+            foreach (var it in nodes) {
                 canSeePlayer[it.Key] = CanSeePlayer(it.Key);
+            }
 
             foreach (var conn in connections) {
                 float speed1 = (canSeePlayer[conn.Point1] ? 1.0f : 2.0f);
@@ -121,8 +125,9 @@ namespace Foundation
             var path = pathFinder.FindPath(start, end, Velocity.FromMetersPerSecond(4.0f));
 
             result.Clear();
-            foreach (var point in path.Edges)
+            foreach (var point in path.Edges) {
                 result.Add(nodePoints[point.Start].transform.position);
+            }
 
             result.Add(nodePoints[path.Edges.Last().End].transform.position);
         }

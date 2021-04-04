@@ -25,8 +25,9 @@ namespace Foundation
             if (input.Action(InputActionName).Triggered) {
                 
 
-                foreach (var observer in OnCharacterJump.Enumerate())
+                foreach (var observer in OnCharacterJump.Enumerate()) {
                     observer.Do();
+                }
             }
         }
     }

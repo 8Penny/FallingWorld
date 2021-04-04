@@ -24,14 +24,16 @@ namespace Foundation
                 yield return new WaitUntil(() => task.IsCompleted);
             }
 
-            foreach (var observer in OnCurrentSceneUnload.Enumerate())
+            foreach (var observer in OnCurrentSceneUnload.Enumerate()) {
                 observer.Do();
+            }
 
             var operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
             while (!operation.isDone) {
                 yield return null;
-                foreach (var observer in OnSceneLoadProgress.Enumerate())
+                foreach (var observer in OnSceneLoadProgress.Enumerate()) {
                     observer.Do(operation.progress);
+                }
             }
 
             foreach (var observer in OnEndSceneLoad.Enumerate()) {

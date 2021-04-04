@@ -8,7 +8,7 @@ namespace Foundation
         public GameObject Prefab;
         public Sprite Icon;
 
-        // Для использования в редакторе
+        // Р”Р»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ СЂРµРґР°РєС‚РѕСЂРµ
         #pragma warning disable CS0414
         [SerializeField] int iconSize = 512;
         [SerializeField] float iconPreviewBrightness = 1.0f;

@@ -25,8 +25,9 @@ namespace Foundation
 
         public void AddEnemy(IEnemy enemy)
         {
-            if (enemyCanAttack.Count < SimultaneouslyAttackingEnemies)
+            if (enemyCanAttack.Count < SimultaneouslyAttackingEnemies) {
                 enemyCanAttack.Add(enemy);
+            }
 
             var handle = new ObserverHandle();
             Observe(ref handle, enemy.OnDidAttackPlayer);
@@ -44,14 +45,16 @@ namespace Foundation
 
             enemies.Remove(enemy);
 
-            if (enemyCanAttack.Remove(enemy))
+            if (enemyCanAttack.Remove(enemy)) {
                 AllowEnemyAttack();
+            }
         }
 
         public void AlertAllEnemies()
         {
-            foreach (var enemy in enemies)
+            foreach (var enemy in enemies) {
                 enemy.EnterAlertState();
+            }
         }
 
         public bool EnemyCanAttack(IEnemy enemy)
@@ -63,12 +66,14 @@ namespace Foundation
         {
             attackCandidatesCache.Clear();
             foreach (var enemy in enemies) {
-                if (!enemyCanAttack.Contains(enemy))
+                if (!enemyCanAttack.Contains(enemy)) {
                     attackCandidatesCache.Add(enemy);
+                }
             }
 
-            if (attackCandidatesCache.Count == 0)
+            if (attackCandidatesCache.Count == 0) {
                 return;
+            }
 
             int enemyIndex = Random.Range(0, attackCandidatesCache.Count);
             enemyCanAttack.Add(attackCandidatesCache[enemyIndex]);
@@ -76,8 +81,9 @@ namespace Foundation
 
         void IOnEnemyDidAttackPlayer.Do(IEnemy enemy)
         {
-            if (enemyCanAttack.Remove(enemy))
+            if (enemyCanAttack.Remove(enemy)) {
                 AllowEnemyAttack();
+            }
         }
 
         bool CanSeePlayer(Vector3 origin, out float distance)
@@ -91,8 +97,9 @@ namespace Foundation
                     var context = hitInfo.transform.GetComponentInParent<Context>();
                     if (context != null) {
                         var hitPlayer = context.Container.TryResolve<IPlayer>();
-                        if (hitPlayer != null)
+                        if (hitPlayer != null) {
                             return true;
+                        }
                     }
                 }
             }
@@ -107,13 +114,15 @@ namespace Foundation
             float nearestDistance = 0.0f;
 
             foreach (var obj in coverPoints) {
-                if (obj.Enemy != null)
+                if (obj.Enemy != null) {
                     continue;
+                }
 
                 Vector3 origin = obj.transform.position;
                 origin.y += 0.5f; // FIXME: hardcoded
-                if (CanSeePlayer(origin, out float distance) && distance < DangerousPlayerDistance)
+                if (CanSeePlayer(origin, out float distance) && distance < DangerousPlayerDistance) {
                     continue;
+                }
 
                 float sqrDistance = (obj.transform.position - enemy.Position).sqrMagnitude;
                 if (nearestCoverPoint == null || sqrDistance < nearestDistance) {
@@ -122,8 +131,9 @@ namespace Foundation
                 }
             }
 
-            if (nearestCoverPoint != null)
+            if (nearestCoverPoint != null) {
                 nearestCoverPoint.Enemy = enemy;
+            }
 
             return nearestCoverPoint;
         }

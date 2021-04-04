@@ -22,8 +22,9 @@ namespace Foundation
         {
             if (FailureConditions != null) {
                 foreach (var condition in FailureConditions) {
-                    if (condition.IsTrue(questManager))
+                    if (condition.IsTrue(questManager)) {
                         return State.Failure;
+                    }
                 }
             }
 

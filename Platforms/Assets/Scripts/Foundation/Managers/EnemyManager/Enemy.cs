@@ -46,8 +46,9 @@ namespace Foundation
         {
             if (defaultBehaviours != null) {
                 int priority = MinimumPriority - defaultBehaviours.Count;
-                foreach (var b in defaultBehaviours)
+                foreach (var b in defaultBehaviours) {
                     behaviours.Insert(0, (b, priority++));
+                }
             }
         }
 
@@ -75,51 +76,59 @@ namespace Foundation
             }
 
             IPlayer seesPlayer = null;
-            if (playerDetector != null)
+            if (playerDetector != null) {
                 seesPlayer = playerDetector.FindTargetPlayer();
+            }
 
             if (seesPlayer != SeenPlayer) {
                 if (SeenPlayer != null) {
-                    foreach (var it in OnLostPlayer.Enumerate())
+                    foreach (var it in OnLostPlayer.Enumerate()) {
                         it.Do(SeenPlayer);
+                    }
                 }
 
                 SeenPlayer = seesPlayer;
 
                 if (SeenPlayer != null) {
-                    foreach (var it in OnSeenPlayer.Enumerate())
+                    foreach (var it in OnSeenPlayer.Enumerate()) {
                         it.Do(SeenPlayer);
+                    }
                 }
             }
 
             EnemyBehaviour selectedBehaviour = null;
             foreach (var it in behaviours) {
                 if (it.behaviour.CheckUpdateAI(deltaTime)) {
-                    if (selectedBehaviour == null)
+                    if (selectedBehaviour == null) {
                         selectedBehaviour = it.behaviour;
+                    }
                 }
             }
 
             if (selectedBehaviour != activeBehaviour) {
-                if (activeBehaviour != null)
+                if (activeBehaviour != null) {
                     activeBehaviour.DeactivateAI();
+                }
 
                 activeBehaviour = selectedBehaviour;
 
-                if (activeBehaviour != null)
+                if (activeBehaviour != null) {
                     activeBehaviour.ActivateAI();
+                }
             }
 
-            if (selectedBehaviour != null)
+            if (selectedBehaviour != null) {
                 selectedBehaviour.UpdateAI(deltaTime);
+            }
         }
 
         public void EnterAlertState()
         {
             if (!IsAlert) {
                 IsAlert = true;
-                foreach (var it in OnEnterAlertState.Enumerate())
+                foreach (var it in OnEnterAlertState.Enumerate()) {
                     it.Do();
+                }
             }
         }
 
@@ -127,31 +136,37 @@ namespace Foundation
         {
             if (IsAlert) {
                 IsAlert = false;
-                foreach (var it in OnLeaveAlertState.Enumerate())
+                foreach (var it in OnLeaveAlertState.Enumerate()) {
                     it.Do();
+                }
             }
         }
 
         public bool CanAttackPlayer(IPlayer target)
         {
-            if (target == null || Weapon == null)
+            if (target == null || Weapon == null) {
                 return false;
+            }
 
-            if (!enemyManager.EnemyCanAttack(this))
+            if (!enemyManager.EnemyCanAttack(this)) {
                 return false;
+            }
 
             return Weapon.CanAttack();
         }
 
         public bool TryAttackPlayer(IPlayer target)
         {
-            if (target == null)
+            if (target == null) {
                 return false;
+            }
 
             if (Weapon != null && Weapon.CanAttack()) {
                 Weapon.Attack();
-                foreach (var it in OnDidAttackPlayer.Enumerate())
+                foreach (var it in OnDidAttackPlayer.Enumerate()) {
                     it.Do(this);
+                }
+
                 return true;
             }
 
@@ -160,16 +175,19 @@ namespace Foundation
 
         public void AddBehaviour(EnemyBehaviour behaviour, int priority)
         {
-            if (priority < MinimumPriority)
+            if (priority < MinimumPriority) {
                 priority = MinimumPriority;
+            }
 
             bool found = false;
             int n = behaviours.Count;
             while (n-- > 0) {
                 var b = behaviours[n];
                 if (b.behaviour == behaviour) {
-                    if (b.priority == priority)
+                    if (b.priority == priority) {
                         return;
+                    }
+
                     b.priority = priority;
                     behaviours[n] = b;
                     found = true;
@@ -177,17 +195,21 @@ namespace Foundation
                 }
             }
 
-            if (!found)
+            if (!found) {
                 behaviours.Add((behaviour, priority));
+            }
 
             behaviours.Sort((a, b) => {
-                    if (a.priority < b.priority)
+                    if (a.priority < b.priority) {
                         return 1;
-                    else if (a.priority > b.priority)
+                    }
+                    else if (a.priority > b.priority) {
                         return -1;
-                    else
+                    }
+                    else {
                         return 0;
-                });
+                    }
+            });
         }
 
         public void RemoveBehaviour(EnemyBehaviour behaviour)

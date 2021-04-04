@@ -17,8 +17,9 @@ namespace Foundation
             do {
                 yield return null;
 
-                if (manager.Health != null)
+                if (manager.Health != null) {
                     manager.Health.Heal(state, HealPerSec * state.TimeDelta);
+                }
 
                 time += state.TimeDelta;
             } while (time < Duration);

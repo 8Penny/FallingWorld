@@ -14,8 +14,10 @@ namespace Foundation
         {
             Offset += center * Scale;
             Scale -= adjust;
-            if (Scale < 0.1f)
+            if (Scale < 0.1f) {
                 Scale = 0.1f;
+            }
+
             Offset -= center * Scale;
         }
     }

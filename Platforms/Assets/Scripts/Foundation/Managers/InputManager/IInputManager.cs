@@ -1,3 +1,5 @@
+using Joysticks;
+
 namespace Foundation
 {
     public interface IInputManager
@@ -6,5 +8,8 @@ namespace Foundation
 
         bool InputOverridenForPlayer(int playerIndex);
         void OverrideInputForPlayer(int playerIndex, IInputSource overrideSource);
+        void RegisterJoystick(IJoystick joystick);
+        void UnregisterJoystick();
+        IJoystick Joystick { get; }
     }
 }

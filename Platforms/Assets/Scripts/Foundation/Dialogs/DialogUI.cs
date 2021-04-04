@@ -50,12 +50,13 @@ namespace Foundation
             manager.Push(State);
 
             var dialogTask = ShowDialogs(dialogs);
-            while (!dialogTask.IsCompleted)
+            while (!dialogTask.IsCompleted) {
                 yield return null;
+            }
 
             manager.Pop(State);
 
-            dialogTask.Wait(); // убеждаемся, что возможные исключения обработаны
+            dialogTask.Wait(); // СѓР±РµР¶РґР°РµРјСЃСЏ, С‡С‚Рѕ РІРѕР·РјРѕР¶РЅС‹Рµ РёСЃРєР»СЋС‡РµРЅРёСЏ РѕР±СЂР°Р±РѕС‚Р°РЅС‹
         }
 
         async Task ShowDialogs(List<Dialog> dialogs)
@@ -76,8 +77,9 @@ namespace Foundation
                 rootNodes.Clear();
                 foreach (var dialog in dialogs) {
                     foreach (var node in dialog.RootNodes) {
-                        if (node.CanShow(questManager))
+                        if (node.CanShow(questManager)) {
                             rootNodes.Add(node);
+                        }
                     }
                 }
             } while (await ShowOptions(rootNodes, true));
@@ -91,8 +93,9 @@ namespace Foundation
 
         async Task<bool> ShowOptions(List<DialogNode> dialogs, bool allowEndDialog)
         {
-            if (dialogs.Count == 0)
+            if (dialogs.Count == 0) {
                 return false;
+            }
 
             do {
                 DialogNode selectedNode = null;
@@ -107,11 +110,13 @@ namespace Foundation
                     row.Text.gameObject.SetActive(false);
 
                     foreach (var dialog in dialogs) {
-                        if (dialog.CanShow(questManager))
+                        if (dialog.CanShow(questManager)) {
                             row.AddButton(localizationManager.GetString(dialog.Text), dialog);
+                        }
                     }
-                    if (allowEndDialog)
+                    if (allowEndDialog) {
                         row.AddButton(localizationManager.GetString(EndDialogMessage), null);
+                    }
 
                     do {
                         await Task.Yield();
@@ -122,8 +127,9 @@ namespace Foundation
                     row.BalloonImage.GetComponent<Image>().color = Color.red; // FIXME
                     row.RemoveButtons();
 
-                    if (selectedNode == null)
+                    if (selectedNode == null) {
                         return false;
+                    }
                 }
 
                 selectedNode.SetHasBeenUsed();
@@ -161,8 +167,10 @@ namespace Foundation
 
         void Clear()
         {
-            foreach (var row in rows)
+            foreach (var row in rows) {
                 row.Pool.Despawn(row);
+            }
+
             rows.Clear();
         }
     }

@@ -14,8 +14,9 @@ namespace Foundation
         {
             if (enemy.SeenPlayer != null) {
                 enemy.EnterAlertState();
-                if (AlertAllEnemies)
+                if (AlertAllEnemies) {
                     enemyManager.AlertAllEnemies();
+                }
             }
 
             return false;

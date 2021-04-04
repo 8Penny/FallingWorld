@@ -41,8 +41,9 @@ namespace Foundation
             base.Start();
 
             foreach (var it in weapons) {
-                if (it.Attack != null)
+                if (it.Attack != null) {
                     weaponAttack.Add(it.Weapon, it.Attack);
+                }
             }
 
             SetCurrentWeaponForce(initialWeapon);
@@ -58,12 +59,14 @@ namespace Foundation
         public bool CanAttack()
         {
             // Нельзя атаковать, если сейчас уже атакуем
-            if (attackingWeapon != null)
+            if (attackingWeapon != null) {
                 return false;
+            }
 
             // Нельзя атаковать, если нет оружия
-            if (currentWeapon == null)
+            if (currentWeapon == null) {
                 return false;
+            }
 
             // Нельзя атаковать, если не хватает патронов
             return currentWeapon.CanShoot(inventory != null ? inventory.RawStorage : null);
@@ -71,16 +74,19 @@ namespace Foundation
 
         public bool Attack()
         {
-            if (!CanAttack())
+            if (!CanAttack()) {
                 return false;
+            }
 
             weaponAttack.TryGetValue(currentWeapon, out var attack);
-            if (!currentWeapon.PrepareShoot(effectManager, inventory != null ? inventory.RawStorage : null, attack))
+            if (!currentWeapon.PrepareShoot(effectManager, inventory != null ? inventory.RawStorage : null, attack)) {
                 return false;
+            }
 
             attackingWeapon = currentWeapon;
-            foreach (var it in OnAttack.Enumerate())
+            foreach (var it in OnAttack.Enumerate()) {
                 it.Do(attackingWeapon);
+            }
 
             return true;
         }
@@ -99,8 +105,9 @@ namespace Foundation
 
             if (applyCooldown) {
                 cooldownAfterAttack = attackingWeapon.AttackCooldownTime;
-                if (cooldownAfterAttack > 0.0f)
+                if (cooldownAfterAttack > 0.0f) {
                     return;
+                }
             }
 
             attackingWeapon.EndCooldown(attack);
@@ -111,22 +118,25 @@ namespace Foundation
 
         public void SetCurrentWeapon(AbstractWeapon weapon)
         {
-            if (currentWeapon != weapon)
+            if (currentWeapon != weapon) {
                 SetCurrentWeaponForce(weapon);
+            }
         }
 
         void SetCurrentWeaponForce(AbstractWeapon weapon)
         {
             currentWeapon = weapon;
-            if (attackingWeapon == null)
+            if (attackingWeapon == null) {
                 UpdateWeaponVisibility();
+            }
         }
 
         void UpdateWeaponVisibility()
         {
             foreach (var it in weapons) {
-                if (it.Visual != null)
+                if (it.Visual != null) {
                     it.Visual.SetActive(currentWeapon == it.Weapon);
+                }
             }
         }
 
@@ -140,8 +150,9 @@ namespace Foundation
         {
             if (cooldownAfterAttack > 0.0f) {
                 cooldownAfterAttack -= timeDelta;
-                if (cooldownAfterAttack <= 0.0f)
+                if (cooldownAfterAttack <= 0.0f) {
                     EndAttack(applyCooldown: false);
+                }
             }
 
             if (player != null) {
@@ -149,8 +160,9 @@ namespace Foundation
 
                 if (weapons != null) {
                     foreach (var weapon in weapons) {
-                        if (input.Action(weapon.InputActionName).Triggered)
+                        if (input.Action(weapon.InputActionName).Triggered) {
                             SetCurrentWeapon(weapon.Weapon);
+                        }
                     }
                 }
             }

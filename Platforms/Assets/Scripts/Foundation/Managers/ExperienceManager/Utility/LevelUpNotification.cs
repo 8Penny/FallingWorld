@@ -22,8 +22,9 @@ namespace Foundation
 
         void IOnLevelReached.Do(int player, int level)
         {
-            if (PlayerIndex == player)
+            if (PlayerIndex == player) {
                 notificationManager.DisplayMessage(localizationManager.GetString(Message));
+            }
         }
     }
 }

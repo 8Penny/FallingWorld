@@ -128,8 +128,10 @@ namespace Foundation
             while (n-- > 0)
             {
                 var source = soundSources[n];
-                if (!includingSurviveSceneLoad && source.SurviveSceneLoad)
+                if (!includingSurviveSceneLoad && source.SurviveSceneLoad) {
                     continue;
+                }
+
                 soundSources.RemoveAt(n);
                 source.Dispose();
             }
@@ -180,8 +182,9 @@ namespace Foundation
                 }
 
                 var sourceTransform = source.TargetTransform;
-                if (sourceTransform == null)
+                if (sourceTransform == null) {
                     sourceTransform = listener.transform;
+                }
 
                 source.transform.SetPositionAndRotation(sourceTransform.position, sourceTransform.rotation);
             }

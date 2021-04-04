@@ -1,56 +1,70 @@
 using System.Collections.Generic;
+using Joysticks;
 using Zenject;
 
-namespace Foundation
-{
-    public sealed class InputManager : AbstractService<IInputManager>, IInputManager
-    {
-        [Inject] InputSource.Factory inputSourceFactory = default;
+namespace Foundation {
+    public sealed class InputManager : AbstractService<IInputManager>, IInputManager {
+        [Inject]
+        public InputSource.Factory inputSourceFactory = default;
 
-        List<IInputSource> inputSources = new List<IInputSource>();
-        List<IInputSource> inputSourceOverrides = new List<IInputSource>();
+        private List<IInputSource> _inputSources = new List<IInputSource>();
+        private List<IInputSource> _inputSourceOverrides = new List<IInputSource>();
 
-        void Awake()
-        {
-            inputSources.Add(inputSourceFactory.Create());
+        private IJoystick _joystick;
+        
+        public IJoystick Joystick => _joystick;
+
+        private void Awake() {
+            _inputSources.Add(inputSourceFactory.Create());
         }
 
-        public IInputSource InputForPlayer(int playerIndex)
-        {
+        public IInputSource InputForPlayer(int playerIndex) {
             if (playerIndex >= 0) {
-                if (playerIndex < inputSourceOverrides.Count && inputSourceOverrides[playerIndex] != null)
-                    return inputSourceOverrides[playerIndex];
-                if (playerIndex < inputSources.Count && inputSources[playerIndex] != null)
-                    return inputSources[playerIndex];
+                if (playerIndex < _inputSourceOverrides.Count && _inputSourceOverrides[playerIndex] != null) {
+                    return _inputSourceOverrides[playerIndex];
+                }
+
+                if (playerIndex < _inputSources.Count && _inputSources[playerIndex] != null) {
+                    return _inputSources[playerIndex];
+                }
             }
 
             return DummyInputSource.Instance;
         }
 
-        public bool InputOverridenForPlayer(int playerIndex)
-        {
+        public bool InputOverridenForPlayer(int playerIndex) {
             return (playerIndex >= 0
-                 && playerIndex < inputSourceOverrides.Count
-                 && inputSourceOverrides[playerIndex] != null);
+                    && playerIndex < _inputSourceOverrides.Count
+                    && _inputSourceOverrides[playerIndex] != null);
         }
 
-        public void OverrideInputForPlayer(int playerIndex, IInputSource overrideSource)
-        {
+        public void OverrideInputForPlayer(int playerIndex, IInputSource overrideSource) {
             DebugOnly.Check(playerIndex >= 0, "Invalid player index.");
 
             if (overrideSource == null) {
-                if (playerIndex < inputSourceOverrides.Count)
-                    inputSourceOverrides[playerIndex] = null;
+                if (playerIndex < _inputSourceOverrides.Count) {
+                    _inputSourceOverrides[playerIndex] = null;
+                }
+
                 return;
             }
 
             DebugOnly.Check(!InputOverridenForPlayer(playerIndex),
                 "Attempted to install multiple overrides for player input.");
 
-            while (playerIndex >= inputSourceOverrides.Count)
-                inputSourceOverrides.Add(null);
+            while (playerIndex >= _inputSourceOverrides.Count) {
+                _inputSourceOverrides.Add(null);
+            }
 
-            inputSourceOverrides[playerIndex] = overrideSource;
+            _inputSourceOverrides[playerIndex] = overrideSource;
+        }
+
+        public void RegisterJoystick(IJoystick joystick) {
+            _joystick = joystick;
+        }
+        
+        public void UnregisterJoystick() {
+            _joystick = null;
         }
     }
 }

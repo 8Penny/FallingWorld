@@ -26,8 +26,9 @@ namespace Foundation
         [Conditional("UNITY_EDITOR")]
         public static void Check(bool condition, string message)
         {
-            if (!condition)
+            if (!condition) {
                 Debug.LogError($"Debug check failed: {message}");
+            }
         }
     }
 }

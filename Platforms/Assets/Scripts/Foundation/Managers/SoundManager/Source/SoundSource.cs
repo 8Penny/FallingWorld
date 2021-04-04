@@ -52,8 +52,9 @@ namespace Foundation
           #endif
 
             AudioSource.DOKill(false);
-            if (AudioSource.isPlaying)
+            if (AudioSource.isPlaying) {
                 AudioSource.Stop();
+            }
 
             TargetTransform = null;
             AudioSource.clip = null;

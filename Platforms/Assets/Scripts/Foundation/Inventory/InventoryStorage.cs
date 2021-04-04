@@ -13,17 +13,23 @@ namespace Foundation
 
             public int Compare(T a, T b)
             {
-                if (a.LessThan(b))
+                if (a.LessThan(b)) {
                     return -1;
-                if (b.LessThan(a))
+                }
+
+                if (b.LessThan(a)) {
                     return 1;
+                }
 
                 int iidA = a.GetInstanceID();
                 int iidB = b.GetInstanceID();
-                if (iidA < iidB)
+                if (iidA < iidB) {
                     return -1;
-                if (iidA > iidB)
+                }
+
+                if (iidA > iidB) {
                     return 1;
+                }
 
                 return 0;
             }
@@ -35,14 +41,16 @@ namespace Foundation
         public int Count => items.Count;
 
         public IEnumerable<(T item, int count)> Items { get {
-                foreach (var it in items)
+                foreach (var it in items) {
                     yield return (it.Key, it.Value);
-            } }
+                }
+        } }
 
         public IEnumerable<(AbstractInventoryItem item, int count)> RawItems { get {
-                foreach (var it in items)
+                foreach (var it in items) {
                     yield return (it.Key, it.Value);
-            } }
+                }
+        } }
 
         public int CountOf(T item)
         {
@@ -52,8 +60,10 @@ namespace Foundation
 
         int IInventoryStorage.CountOf(AbstractInventoryItem item)
         {
-            if (item is T castItem)
+            if (item is T castItem) {
                 return CountOf(castItem);
+            }
+
             return 0;
         }
 
@@ -67,8 +77,9 @@ namespace Foundation
             items.TryGetValue(item, out int count);
             items[item] = count + amount;
 
-            foreach (var it in OnChanged.Enumerate())
+            foreach (var it in OnChanged.Enumerate()) {
                 it.Do();
+            }
         }
 
         void IInventoryStorage.Add(AbstractInventoryItem item, int amount)
@@ -83,27 +94,33 @@ namespace Foundation
                 return false;
             }
 
-            if (!items.TryGetValue(item, out int count) || count < amount)
+            if (!items.TryGetValue(item, out int count) || count < amount) {
                 return false;
-
-            count -= amount;
-            if (count > 0)
-                items[item] = count;
-            else {
-                if (!items.Remove(item))
-                    return false;
             }
 
-            foreach (var it in OnChanged.Enumerate())
+            count -= amount;
+            if (count > 0) {
+                items[item] = count;
+            }
+            else {
+                if (!items.Remove(item)) {
+                    return false;
+                }
+            }
+
+            foreach (var it in OnChanged.Enumerate()) {
                 it.Do();
+            }
 
             return true;
         }
 
         bool IInventoryStorage.Remove(AbstractInventoryItem item, int amount)
         {
-            if (item is T castItem)
+            if (item is T castItem) {
                 return Remove(castItem, amount);
+            }
+
             return false;
         }
 
@@ -111,8 +128,9 @@ namespace Foundation
         {
             items.Clear();
 
-            foreach (var it in OnChanged.Enumerate())
+            foreach (var it in OnChanged.Enumerate()) {
                 it.Do();
+            }
         }
     }
 }

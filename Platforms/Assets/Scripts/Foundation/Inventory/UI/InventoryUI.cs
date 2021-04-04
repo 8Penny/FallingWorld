@@ -63,8 +63,10 @@ namespace Foundation
 
         void Clear()
         {
-            foreach (var row in rows)
+            foreach (var row in rows) {
                 row.Pool.Despawn(row);
+            }
+
             rows.Clear();
         }
     }

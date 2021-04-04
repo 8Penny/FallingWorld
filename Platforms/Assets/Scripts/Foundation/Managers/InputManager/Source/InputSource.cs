@@ -28,8 +28,9 @@ namespace Foundation
 
         public IInputAction Action(string name)
         {
-            if (actions.TryGetValue(name, out var wrapper))
+            if (actions.TryGetValue(name, out var wrapper)) {
                 return wrapper;
+            }
 
             var action = playerInput.actions.FindAction(name);
             DebugOnly.Check(action != null, $"Unable to find input action \"{name}\".");
@@ -42,8 +43,10 @@ namespace Foundation
 
         public void DisconnectAllActions()
         {
-            foreach (var it in actions)
+            foreach (var it in actions) {
                 it.Value.Dispose();
+            }
+
             actions.Clear();
         }
 

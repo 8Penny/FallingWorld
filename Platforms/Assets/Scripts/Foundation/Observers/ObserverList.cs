@@ -18,20 +18,24 @@ namespace Foundation
 
         void IObserverList.Add(ref ObserverHandle handle, object observer)
         {
-            if (observer is T typedObserver)
+            if (observer is T typedObserver) {
                 Add(ref handle, typedObserver);
+            }
             else {
-                if (observer == null)
+                if (observer == null) {
                     DebugOnly.Error("Observer is null.");
-                else
+                }
+                else {
                     DebugOnly.Error($"Was expecting type {typeof(T)}, got type {observer.GetType().Name}.");
+                }
             }
         }
 
         public void Add(ref ObserverHandle handle, T observer)
         {
-            if (handle == null)
+            if (handle == null) {
                 handle = new ObserverHandle();
+            }
 
             DebugOnly.Check(observer != null, "Observer is null.");
             DebugOnly.Check(handle.List == null, "Handle is already in use.");
@@ -66,8 +70,9 @@ namespace Foundation
         {
             cachedList.Clear();
             cachedList.AddRange(list);
-            foreach (var item in cachedList)
+            foreach (var item in cachedList) {
                 yield return item.observer;
+            }
         }
     }
 }

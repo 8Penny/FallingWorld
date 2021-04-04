@@ -15,13 +15,16 @@ namespace Foundation
         {
             if (timer > 0.0f) {
                 timer -= deltaTime;
-                if (timer <= 0.0f)
+                if (timer <= 0.0f) {
                     enemy.LeaveAlertState();
+                }
+
                 return false;
             }
 
-            if (enemy.IsAlert)
+            if (enemy.IsAlert) {
                 timer = Random.Range(MinDelay, MaxDelay);
+            }
 
             return false;
         }

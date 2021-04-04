@@ -44,19 +44,23 @@ namespace Foundation
         void IOnStateActivate.Do()
         {
             CanvasGroup.blocksRaycasts = true;
-            if (animator != null)
+            if (animator != null) {
                 animator.AnimateAppear(Canvas, CanvasGroup);
-            else
+            }
+            else {
                 CanvasGroup.alpha = 1.0f;
+            }
         }
 
         void IOnStateDeactivate.Do()
         {
             CanvasGroup.blocksRaycasts = false;
-            if (animator != null)
+            if (animator != null) {
                 animator.AnimateDisappear(Canvas, CanvasGroup);
-            else
+            }
+            else {
                 CanvasGroup.alpha = 0.0f;
+            }
         }
 
         void IOnStateSortingOrderChanged.Do(int order)
@@ -70,8 +74,10 @@ namespace Foundation
             var objects = FindObjectsOfType<CanvasController>();
             foreach (var obj in objects) {
                 if (obj.EditorCamera != null) {
-                    if (obj.Canvas.renderMode == RenderMode.ScreenSpaceCamera && obj.Canvas.worldCamera == obj.EditorCamera)
+                    if (obj.Canvas.renderMode == RenderMode.ScreenSpaceCamera && obj.Canvas.worldCamera == obj.EditorCamera) {
                         obj.Canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                    }
+
                     DestroyImmediate(obj.EditorCamera);
                     obj.EditorCamera = null;
                 }

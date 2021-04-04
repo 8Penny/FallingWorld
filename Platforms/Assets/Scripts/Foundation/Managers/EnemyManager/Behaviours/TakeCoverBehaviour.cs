@@ -75,8 +75,10 @@ namespace Foundation
 
                 case State.CooldownAfterRun: {
                     cooldownTimer -= deltaTime;
-                    if (cooldownTimer <= 0.0f)
+                    if (cooldownTimer <= 0.0f) {
                         state = State.Idle;
+                    }
+
                     break;
                 }
             }

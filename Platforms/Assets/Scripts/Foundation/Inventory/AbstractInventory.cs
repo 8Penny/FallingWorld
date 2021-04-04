@@ -25,8 +25,9 @@ namespace Foundation
 
         void Awake()
         {
-            if (initialInventory == null)
+            if (initialInventory == null) {
                 return;
+            }
 
             foreach (var it in initialInventory) {
                 DebugOnly.Check(it.Count > 0, $"Invalid count {it.Count} in inventory of '{gameObject.name}'.");

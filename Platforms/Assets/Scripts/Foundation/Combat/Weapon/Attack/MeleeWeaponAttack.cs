@@ -38,20 +38,23 @@ namespace Foundation
 
         public void OnTriggerEnter(Collider other)
         {
-            if (!inAttack)
+            if (!inAttack) {
                 return;
+            }
 
             var context = other.GetComponentInParent<Context>();
             if (context != null) {
                 var health = context.Container.TryResolve<ICharacterHealth>();
-                if (health != null && damaged.Add(health))
+                if (health != null && damaged.Add(health)) {
                     health.Damage(this, damage);
+                }
 
                 if (effects != null && effects.Length > 0) {
                     var victimEffectManager = context.Container.TryResolve<ICharacterEffectManager>();
                     if (victimEffectManager != null && affected.Add(health)) {
-                        foreach (var effect in effects)
+                        foreach (var effect in effects) {
                             victimEffectManager.AddEffect(this, effect);
+                        }
                     }
                 }
             }
