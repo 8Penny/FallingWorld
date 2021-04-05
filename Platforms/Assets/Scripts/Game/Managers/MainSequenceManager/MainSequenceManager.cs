@@ -42,11 +42,10 @@ namespace Game.Managers
             base.OnEnable();
             Observe(_state.OnUpdate);
             
-            
             Observe(_falling.OnPhaseCompleted);
             Observe(_retention.OnPhaseCompleted);
+            Observe(_action.OnPhaseCompleted);
         }
-
 
         public void StartGame()
         {
@@ -79,6 +78,9 @@ namespace Game.Managers
             IPhaseManager phaseManager = _phaseManagers[_currentPhase];
             GamePhase nextPhase = phaseManager.NextPhase;
             IPhaseManager nextPhaseManager = _phaseManagers[nextPhase];
+
+            _currentPhase = nextPhase;
+            nextPhaseManager.Start();
         }
     }
 }
