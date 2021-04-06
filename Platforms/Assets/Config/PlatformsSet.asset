@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffb643dab54d4346b958a188f8cc9a2c, type: 3}
   m_Name: PlatformsSet
   m_EditorClassIdentifier: 
-  waterPlatform: {fileID: 2458954859048898542, guid: 0714204951ab13049872550b0c0f0925,
+  waterPlatform: {fileID: 2458954859048898542, guid: ad55092362f95c047b07a6e1af4c1d9b,
     type: 3}
-  sandPlatform: {fileID: 2458954859048898542, guid: 90795b95933718d4bb664208d0b1a2f1,
+  sandPlatform: {fileID: 2458954859048898542, guid: ad6aaeb88b4228546a0ccdcc99c52829,
     type: 3}
   forestPlatform: {fileID: 2458954859048898542, guid: 8cd6a29cf9cbedb42aa64c397a106cf0,
     type: 3}

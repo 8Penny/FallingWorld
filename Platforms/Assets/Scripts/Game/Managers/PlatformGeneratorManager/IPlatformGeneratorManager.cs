@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using Game.Managers.PlatformManager;
+
 namespace Game.Managers.PlatformGeneratorManager {
     public interface IPlatformGeneratorManager {
-        void GeneratePlatforms();
+        List<Platform> GeneratePlatforms();
     }
 }

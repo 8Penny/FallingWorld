@@ -6,8 +6,10 @@ namespace Game.Managers.PhaseManagers
     public interface IPhaseManager
     {
         ObserverList<IOnPhaseCompleted> OnPhaseCompleted { get; }
+        ObserverList<IOnPhaseStarted> OnPhaseStarted { get; }
         GamePhase NextPhase { get; }
-        void Start();
+        bool IsActive { get; }
+        void StartPhase();
         void Finish();
 
         void Reset();

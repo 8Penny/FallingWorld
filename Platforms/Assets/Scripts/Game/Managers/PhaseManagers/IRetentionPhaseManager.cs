@@ -2,6 +2,6 @@
 {
     public interface IRetentionPhaseManager: IPhaseManager
     {
-        
+        float TimeLeft { get; }
     }
 }

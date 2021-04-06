@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using Foundation;
 using Game.Managers.PhaseManagers;
-using Game.Managers.PlatformGeneratorManager;
 using Zenject;
 
 namespace Game.Managers
 {
     public class MainSequenceManager : AbstractService<IMainSequenceManager>, IMainSequenceManager, IOnUpdate, IOnPhaseCompleted
     {
+        private ICurrentGameStatsManager _gameStatsManager;
         private ISceneState _state;
 
-        private GamePhase _currentPhase;
         private bool _isRunning;
         private Dictionary<GamePhase, IPhaseManager> _phaseManagers = new Dictionary<GamePhase, IPhaseManager>();
 
@@ -18,20 +17,20 @@ namespace Game.Managers
         private IActionPhaseManager _action;
         private IFallingPhaseManager _falling;
 
-        private IPlatformGeneratorManager _platformGeneratorManager;
 
         [Inject]
-        public void Init(IFallingPhaseManager fallingPhaseManager, IActionPhaseManager actionPhaseManager,
-            IRetentionPhaseManager retentionPhaseManager, ISceneState state,
-            IPlatformGeneratorManager platformGeneratorManager)
+        public void Init(ICurrentGameStatsManager currentGameStatsManager,
+            IFallingPhaseManager fallingPhaseManager, IActionPhaseManager actionPhaseManager,
+            IRetentionPhaseManager retentionPhaseManager, ISceneState state)
         {
             _state = state;
+            _gameStatsManager = currentGameStatsManager;
             
             _action = actionPhaseManager;
             _retention = retentionPhaseManager;
             _falling = fallingPhaseManager;
             
-            _phaseManagers[GamePhase.Default] = retentionPhaseManager;
+            _phaseManagers[GamePhase.Default] = fallingPhaseManager;
             _phaseManagers[GamePhase.Retention] = retentionPhaseManager;
             _phaseManagers[GamePhase.Action] = actionPhaseManager;
             _phaseManagers[GamePhase.Falling] = fallingPhaseManager;
@@ -45,14 +44,16 @@ namespace Game.Managers
             Observe(_falling.OnPhaseCompleted);
             Observe(_retention.OnPhaseCompleted);
             Observe(_action.OnPhaseCompleted);
+            
+            StartGame();
         }
 
         public void StartGame()
         {
             ResetGame();
-            _platformGeneratorManager.GeneratePlatforms();
 
             _isRunning = true;
+            StartNextPhase();
         }
 
         public void StopGame()
@@ -62,7 +63,7 @@ namespace Game.Managers
 
         private void ResetGame()
         {
-            _currentPhase = GamePhase.Default;
+            _gameStatsManager.SetGamePhase(GamePhase.Default);
             _retention.Reset();
             _action.Reset();
             _falling.Reset();
@@ -75,12 +76,22 @@ namespace Game.Managers
 
         void IOnPhaseCompleted.Do()
         {
-            IPhaseManager phaseManager = _phaseManagers[_currentPhase];
+            StartNextPhase();
+        }
+
+        private void StartNextPhase()
+        {
+            if (!_isRunning)
+            {
+                return;
+            }
+            IPhaseManager phaseManager = _phaseManagers[_gameStatsManager.CurrentGamePhase];
             GamePhase nextPhase = phaseManager.NextPhase;
             IPhaseManager nextPhaseManager = _phaseManagers[nextPhase];
 
-            _currentPhase = nextPhase;
-            nextPhaseManager.Start();
+            _gameStatsManager.SetGamePhase(nextPhase);
+            nextPhaseManager.StartPhase();
+            DebugOnly.Message($"{nextPhase} start");
         }
     }
 }
