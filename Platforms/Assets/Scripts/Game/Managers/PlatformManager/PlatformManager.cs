@@ -73,6 +73,7 @@ namespace Game.Managers.PlatformManager
                 if (_availablePlatforms[i] == null)
                 {
                     _availablePlatforms[i] = platform;
+                    break;
                 }
             }
 
@@ -90,6 +91,7 @@ namespace Game.Managers.PlatformManager
                 if (_availablePlatforms[i] == platform)
                 {
                     _availablePlatforms[i] = null;
+                    break;
                 }
             }
 
@@ -115,6 +117,8 @@ namespace Game.Managers.PlatformManager
                     minDistance = distance;
                 }
             }
+            
+            DebugOnly.Message($"Index {selectedIndex}");
 
             if (selectedIndex == -1)
             {
