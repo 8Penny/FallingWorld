@@ -4,7 +4,9 @@
     "references": [
         "Assembly-Foundation",
         "Assembly-Foundation.Editor",
-        "Zenject"
+        "Zenject",
+        "Unity.TextMeshPro",
+        "Unity.TextMeshPro.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -12,5 +12,7 @@ namespace Game.Managers
         {
             _currentGamePhase = phase;
         }
+
+        public ObserverList<IOnPhaseChanged> OnPhaseChanged { get; }
     }
 }

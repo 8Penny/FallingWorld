@@ -1,4 +1,5 @@
-﻿using Game.Managers.PhaseManagers;
+﻿using Foundation;
+using Game.Managers.PhaseManagers;
 
 namespace Game.Managers
 {
@@ -6,5 +7,6 @@ namespace Game.Managers
     {
         GamePhase CurrentGamePhase { get; }
         void SetGamePhase(GamePhase phase);
+        ObserverList<IOnPhaseChanged> OnPhaseChanged { get; }
     }
 }
