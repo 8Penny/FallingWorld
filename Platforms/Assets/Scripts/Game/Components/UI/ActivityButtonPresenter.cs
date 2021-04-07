@@ -6,14 +6,20 @@ using Zenject;
 
 namespace Game.Components.UI
 {
-    public class ActivityButtonPresenter : AbstractBehaviour, IOnPhaseChanged
-    {
+    public class ActivityButtonPresenter : AbstractBehaviour, IOnPhaseChanged {
+        [SerializeField]
+        private ActivityButtonView _view;
+        
         private bool _isVisible;
         private bool _isInteractable;
         private ActivityButtonType _buttonType;
 
         private ICurrentGameStatsManager _gameStatsManager;
 
+        public bool IsVisible => _isVisible;
+        public bool IsInteractable => _isInteractable;
+        public ActivityButtonType ButtonType => _buttonType;
+        
         [Inject]
         public void Init(ICurrentGameStatsManager gameStatsManager)
         {
@@ -25,10 +31,15 @@ namespace Game.Components.UI
             base.OnEnable();
             Observe(_gameStatsManager.OnPhaseChanged);
             _isVisible = true;
+            UpdateButtonType(_gameStatsManager.CurrentGamePhase);
+            _view.UpdateParameters();
         }
 
-        void IOnPhaseChanged.Do(GamePhase newPhase)
-        {
+        public void Do(GamePhase newPhase) {
+            UpdateButtonType(newPhase);
+        }
+
+        private void UpdateButtonType(GamePhase newPhase) {
             switch (newPhase)
             {
                 case GamePhase.Action:
@@ -41,6 +52,12 @@ namespace Game.Components.UI
                     _isInteractable = false;
                     break;
             }
+            
+            _view.UpdateParameters();
+        }
+
+        public void OnClick() {
+            
         }
     }
 
