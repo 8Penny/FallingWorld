@@ -1,17 +1,12 @@
-﻿using Foundation;
-using Game.Managers;
+﻿using Game.Managers;
 using Game.Managers.PhaseManagers;
-using UnityEngine;
 using Zenject;
 
 namespace Game.Components.UI
 {
-    public class ActivityButtonPresenter : AbstractBehaviour, IOnPhaseChanged {
-        [SerializeField]
-        private ActivityButtonView _view;
-        
-        private bool _isVisible;
-        private bool _isInteractable;
+    public class ActivityButtonPresenter : ButtonPresenter, IOnPhaseChanged {
+        private bool _isVisible = true;
+        private bool _isInteractable = true;
         private ActivityButtonType _buttonType;
 
         private ICurrentGameStatsManager _gameStatsManager;
@@ -19,20 +14,20 @@ namespace Game.Components.UI
         public bool IsVisible => _isVisible;
         public bool IsInteractable => _isInteractable;
         public ActivityButtonType ButtonType => _buttonType;
-        
+        public UIEvent OnUpdated;
+
         [Inject]
         public void Init(ICurrentGameStatsManager gameStatsManager)
         {
             _gameStatsManager = gameStatsManager;
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
+            OnUpdated = CreateEvent();
             Observe(_gameStatsManager.OnPhaseChanged);
-            _isVisible = true;
+        }
+        
+        
+        public override void OnViewAttached() {
+            
             UpdateButtonType(_gameStatsManager.CurrentGamePhase);
-            _view.UpdateParameters();
         }
 
         public void Do(GamePhase newPhase) {
@@ -52,8 +47,7 @@ namespace Game.Components.UI
                     _isInteractable = false;
                     break;
             }
-            
-            _view.UpdateParameters();
+            OnUpdated.Invoke();
         }
 
         public void OnClick() {

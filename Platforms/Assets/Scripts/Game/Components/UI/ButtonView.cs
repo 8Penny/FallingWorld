@@ -8,14 +8,14 @@ using Zenject;
 
 namespace Game.Components.UI
 {
-    public class ButtonView : UIView<ButtonPresenter>
+    public class ButtonView<T> : UIView<T> where T : ButtonPresenter
     {
         [SerializeField]
-        private Button _button;
+        protected Button _button;
         
         private UIEvent ButtonClick;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _button.onClick.AddListener(OnButtonClick);
         }

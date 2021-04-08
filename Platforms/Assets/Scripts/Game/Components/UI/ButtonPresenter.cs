@@ -6,10 +6,6 @@ namespace Game.Components.UI
 {
     public class ButtonPresenter : UIPresenter
     {
-        public ButtonPresenter(IUIPoolManager uiPoolManager) : base(uiPoolManager)
-        {
-        }
-
         public override void OnViewAttached()
         {
         }

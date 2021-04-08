@@ -18,7 +18,7 @@ namespace Game.Managers.PhaseManagers
         public bool IsActive => _isActive;
         public float TimeLeft => _timeLeft;
 
-        private const float TIME = 30f; // TODO: to config
+        private const float TIME = 3f; // TODO: to config
 
         [Inject]
         public void Init(ISceneState sceneState, IPlatformManager platformManager)

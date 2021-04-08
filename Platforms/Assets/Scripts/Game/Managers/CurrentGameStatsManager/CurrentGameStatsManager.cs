@@ -10,8 +10,8 @@ namespace Game.Managers
 {
     public class CurrentGameStatsManager : AbstractService<ICurrentGameStatsManager>, ICurrentGameStatsManager
     {
-        [SerializeField]
-        private ButtonView _view;
+        // [SerializeField]
+        // private ButtonView _view;
         public ObserverList<IOnPhaseChanged> OnPhaseChanged { get; } = new ObserverList<IOnPhaseChanged>();
         private GamePhase _currentGamePhase;
         public GamePhase CurrentGamePhase => _currentGamePhase;
@@ -21,7 +21,7 @@ namespace Game.Managers
         
         private void Awake()
         {
-            _view.SetPresenter(new ButtonPresenter(UIPoolManager));
+            //_view.SetPresenter(new ButtonPresenter(UIPoolManager));
         }
         public void SetGamePhase(GamePhase phase)
         {

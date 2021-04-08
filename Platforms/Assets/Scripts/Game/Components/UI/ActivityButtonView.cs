@@ -1,13 +1,11 @@
-﻿using UnityEngine;
+﻿using Foundation;
+using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
 namespace Game.Components.UI
 {
-    public class ActivityButtonView : MonoBehaviour {
-        [SerializeField]
-        private ActivityButtonPresenter _presenter;
-        
+    public class ActivityButtonView : ButtonView<ActivityButtonPresenter> {
         [SerializeField]
         private GameObject _main;
 
@@ -16,16 +14,19 @@ namespace Game.Components.UI
 
         [SerializeField]
         private Image _image;
-        
-        [SerializeField]
-        private Button _button;
-        
+
         [SerializeField]
         private Sprite _fixedSprite;
         [SerializeField]
         private Sprite _interactionSprite;
 
-        public void UpdateParameters() {
+        protected override void OnAttached() {
+            base.OnAttached();
+            _presenter.Bind(_presenter.OnUpdated, OnChanged);
+            OnChanged();
+        }
+
+        public void OnChanged() {
             _main.SetActive(_presenter.IsVisible);
             if (!_presenter.IsVisible) {
                 return;
