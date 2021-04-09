@@ -6,45 +6,33 @@ using UnityEngine;
 using Zenject;
 
 namespace Game.Components.UI {
-    public class TimerView : AbstractBehaviour, IOnUpdate, IOnPhaseCompleted, IOnPhaseStarted {
+    public class TimerView : UIView<TimerPresenter> {
         [SerializeField]
         private GameObject _mainGameObject;
 
         [SerializeField]
         private TMP_Text _text;
 
-        private int _timeLeft;
-        
-        private ISceneState _sceneState;
-        private IRetentionPhaseManager _retentionPhaseManager;
-        
-        [Inject]
-        public void Init(ISceneState sceneState, IRetentionPhaseManager retentionPhaseManager) {
-            _sceneState = sceneState;
-            _retentionPhaseManager = retentionPhaseManager;
-        }
-        
-        protected override void OnEnable() {
-            base.OnEnable();
-            Observe(_sceneState.OnUpdate);
-            Observe(_retentionPhaseManager.OnPhaseCompleted);
-            Observe(_retentionPhaseManager.OnPhaseStarted);
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            _presenter.Bind(_presenter.OnTimerUpdated, OnTimerUpdated);
+            _presenter.Bind(_presenter.OnRetentionStarted, OnPhaseStarted);
+            _presenter.Bind(_presenter.OnRetentionEnded, OnPhaseEnded);
+            
+            _mainGameObject.SetActive(_presenter.IsVisible);
+            DebugOnly.Message("TIMER VIEW ATTACHED");
         }
 
-        void IOnUpdate.Do(float timeDelta) {
-            int currentTime = (int) _retentionPhaseManager.TimeLeft;
-            if (_timeLeft == currentTime) {
-                return;
-            }
-            _timeLeft = currentTime;
-            _text.text = currentTime.ToString();
+        void OnTimerUpdated(){
+            _text.text = _presenter.TimeLeft.ToString();
         }
 
-        void IOnPhaseCompleted.Do() {
+        void OnPhaseEnded() {
             _mainGameObject.SetActive(false);
         }
 
-        void IOnPhaseStarted.Do() {
+        void OnPhaseStarted() {
             _mainGameObject.SetActive(true);
         }
     }

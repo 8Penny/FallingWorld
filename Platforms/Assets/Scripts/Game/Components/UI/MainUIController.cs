@@ -16,7 +16,10 @@ namespace Game.Components.UI {
 
         private void Awake() {
             ActivityButtonPresenter activityButtonPresenter = _instantiator.Instantiate<ActivityButtonPresenter>();
+            TimerPresenter timerPresenter = _instantiator.Instantiate<TimerPresenter>();
+            
             _mainUIView.ActivityButtonView.SetPresenter(activityButtonPresenter);
+            _mainUIView.TimerView.SetPresenter(timerPresenter);
         }
     }
 }

@@ -33,6 +33,10 @@ namespace Game.Managers.PhaseManagers
         {
             _timeLeft = TIME;
             _isActive = true;
+            
+            foreach (var it in OnPhaseStarted.Enumerate()) {
+                it.Do();
+            }
         }
 
         public void Finish()

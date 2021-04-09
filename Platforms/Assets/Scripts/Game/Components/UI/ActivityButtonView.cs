@@ -26,7 +26,7 @@ namespace Game.Components.UI
             OnChanged();
         }
 
-        public void OnChanged() {
+        private void OnChanged() {
             _main.SetActive(_presenter.IsVisible);
             if (!_presenter.IsVisible) {
                 return;

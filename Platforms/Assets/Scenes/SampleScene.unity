@@ -2492,6 +2492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _activityButtonView: {fileID: 5127846349510324924}
+  _timerView: {fileID: 1142021324}
 --- !u!114 &1385406747
 MonoBehaviour:
   m_ObjectHideFlags: 0
