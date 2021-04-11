@@ -1,4 +1,5 @@
-﻿using Game.Managers;
+﻿using Game.Components.Core;
+using Game.Managers;
 using Game.Managers.PhaseManagers;
 using Zenject;
 
@@ -10,16 +11,18 @@ namespace Game.Components.UI
         private ActivityButtonType _buttonType;
 
         private ICurrentGameStatsManager _gameStatsManager;
+        private IMainSequenceManager _mainSequenceManager;
 
         public bool IsVisible => _isVisible;
         public bool IsInteractable => _isInteractable;
         public ActivityButtonType ButtonType => _buttonType;
-        public UIEvent OnUpdated;
+        public FWEvent OnUpdated;
 
         [Inject]
-        public void Init(ICurrentGameStatsManager gameStatsManager)
+        public void Init(ICurrentGameStatsManager gameStatsManager, IMainSequenceManager mainSequenceManager)
         {
             _gameStatsManager = gameStatsManager;
+            _mainSequenceManager = mainSequenceManager;
             OnUpdated = CreateEvent();
             Observe(_gameStatsManager.OnPhaseChanged);
         }
@@ -50,8 +53,9 @@ namespace Game.Components.UI
             OnUpdated.Invoke();
         }
 
-        public void OnClick() {
-            
+        public override void OnButtonClick() {
+            base.OnButtonClick();
+            _mainSequenceManager.TryInteract();
         }
     }
 

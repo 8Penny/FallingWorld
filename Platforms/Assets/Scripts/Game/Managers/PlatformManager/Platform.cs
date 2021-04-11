@@ -32,12 +32,11 @@ namespace Game.Managers.PlatformManager
             _platformManager = platformManager;
             Observe(sceneState.OnUpdate);
         }
-        
+
         public void SetStatus(PlatformStatus status)
         {
             _status = status;
             _view.OnStatusUpdated();
-            Debug.Log("STATUS UPDATED");
         }
         
         public void SetPosition(Vector3 position)
@@ -53,6 +52,9 @@ namespace Game.Managers.PlatformManager
 
         public void StartFalling()
         {
+            if (Status == PlatformStatus.Selectable) {
+                SetStatus(PlatformStatus.Default);
+            }
             _isFalling = true;
         }
 

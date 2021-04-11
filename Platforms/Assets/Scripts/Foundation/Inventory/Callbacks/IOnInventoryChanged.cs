@@ -2,6 +2,6 @@ namespace Foundation
 {
     public interface IOnInventoryChanged
     {
-        void Do();
+        void Do(AbstractInventoryItem item);
     }
 }

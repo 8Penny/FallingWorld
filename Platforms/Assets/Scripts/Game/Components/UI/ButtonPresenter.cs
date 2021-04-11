@@ -1,16 +1,16 @@
 ﻿using System;
 using Foundation;
-using Game.Managers.UIPoolManager;
+using Game.Components.Core;
 
 namespace Game.Components.UI
 {
-    public class ButtonPresenter : UIPresenter
+    public class ButtonPresenter : FWPresenter
     {
         public override void OnViewAttached()
         {
         }
 
-        public void OnButtonClick()
+        public virtual void OnButtonClick()
         {
             DebugOnly.Message("Click");
         }

@@ -4,9 +4,10 @@ using Game.Managers.PhaseManagers;
 using TMPro;
 using UnityEngine;
 using Zenject;
+using Game.Components.Core;
 
 namespace Game.Components.UI {
-    public class TimerView : UIView<TimerPresenter> {
+    public class TimerView : FWView<TimerPresenter> {
         [SerializeField]
         private GameObject _mainGameObject;
 
@@ -16,9 +17,9 @@ namespace Game.Components.UI {
         protected override void OnAttached()
         {
             base.OnAttached();
-            _presenter.Bind(_presenter.OnTimerUpdated, OnTimerUpdated);
-            _presenter.Bind(_presenter.OnRetentionStarted, OnPhaseStarted);
-            _presenter.Bind(_presenter.OnRetentionEnded, OnPhaseEnded);
+            Bind(_presenter.OnTimerUpdated, OnTimerUpdated);
+            Bind(_presenter.OnRetentionStarted, OnPhaseStarted);
+            Bind(_presenter.OnRetentionEnded, OnPhaseEnded);
             
             _mainGameObject.SetActive(_presenter.IsVisible);
             DebugOnly.Message("TIMER VIEW ATTACHED");

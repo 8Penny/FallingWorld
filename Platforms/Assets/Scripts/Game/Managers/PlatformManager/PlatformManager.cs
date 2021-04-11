@@ -68,6 +68,10 @@ namespace Game.Managers.PlatformManager
             {
                 return;
             }
+            if (platform.Status == PlatformStatus.Fixed)
+            {
+                return;
+            }
             for (int i = 0; i < _availablePlatforms.Length; i++)
             {
                 if (_availablePlatforms[i] == null)
@@ -98,6 +102,11 @@ namespace Game.Managers.PlatformManager
             UpdateSelectedPlatform();
         }
 
+        public void TryFixPlatform() {
+            _selectablePlatform.SetStatus(PlatformStatus.Fixed);
+            UpdateSelectedPlatform();
+        }
+
         private void UpdateSelectedPlatform()
         {
             int selectedIndex = -1;
@@ -105,7 +114,7 @@ namespace Game.Managers.PlatformManager
             for (int i = 0; i < _availablePlatforms.Length; i++)
             {
                 var currentPlatform = _availablePlatforms[i];
-                if (currentPlatform == null)
+                if (currentPlatform == null || currentPlatform.Status == PlatformStatus.Fixed)
                 {
                     continue;
                 }
@@ -118,13 +127,14 @@ namespace Game.Managers.PlatformManager
                 }
             }
             
-            DebugOnly.Message($"Index {selectedIndex}");
 
             if (selectedIndex == -1)
             {
                 if (_selectablePlatform != null)
                 {
-                    _selectablePlatform.SetStatus(PlatformStatus.Default);
+                    if (_selectablePlatform.Status != PlatformStatus.Fixed) {
+                        _selectablePlatform.SetStatus(PlatformStatus.Default);
+                    }
                 }
                 _selectablePlatform = null;
                 return;
@@ -138,7 +148,9 @@ namespace Game.Managers.PlatformManager
             }
             if (_selectablePlatform != null)
             {
-                _selectablePlatform.SetStatus(PlatformStatus.Default);
+                if (_selectablePlatform.Status != PlatformStatus.Fixed) {
+                    _selectablePlatform.SetStatus(PlatformStatus.Default);
+                }
             }
             nextSelectedPlatform.SetStatus(PlatformStatus.Selectable);
 

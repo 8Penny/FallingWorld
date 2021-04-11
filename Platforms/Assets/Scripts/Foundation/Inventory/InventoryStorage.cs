@@ -2,17 +2,13 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-namespace Foundation
-{
+namespace Foundation {
     public sealed class InventoryStorage<T> : IInventoryStorage<T>
-        where T : AbstractInventoryItem
-    {
-        sealed class Comparer : IComparer<T>
-        {
+        where T : AbstractInventoryItem {
+        sealed class Comparer : IComparer<T> {
             public static readonly Comparer Instance = new Comparer();
 
-            public int Compare(T a, T b)
-            {
+            public int Compare(T a, T b) {
                 if (a.LessThan(b)) {
                     return -1;
                 }
@@ -35,31 +31,47 @@ namespace Foundation
             }
         }
 
-        readonly SortedDictionary<T, int> items = new SortedDictionary<T, int>(Comparer.Instance);
+        private const int MAX_COUNT = 15;
+        private readonly T[] _items = new T[MAX_COUNT];
+        private readonly int[] _counts = new int[MAX_COUNT];
 
         public ObserverList<IOnInventoryChanged> OnChanged { get; } = new ObserverList<IOnInventoryChanged>();
-        public int Count => items.Count;
+        public ObserverList<IOnInventoryClear> OnCleared { get; } = new ObserverList<IOnInventoryClear>();
 
-        public IEnumerable<(T item, int count)> Items { get {
-                foreach (var it in items) {
-                    yield return (it.Key, it.Value);
+        public IEnumerable<(T item, int count)> Items {
+            get {
+                for (int i = 0; i < MAX_COUNT; i++) {
+                    if (_items[i] == null || _counts[i] < 1) {
+                        continue;
+                    }
+
+                    yield return (_items[i], _counts[i]);
                 }
-        } }
+            }
+        }
 
-        public IEnumerable<(AbstractInventoryItem item, int count)> RawItems { get {
-                foreach (var it in items) {
-                    yield return (it.Key, it.Value);
+        public IEnumerable<(AbstractInventoryItem item, int count)> RawItems {
+            get {
+                for (int i = 0; i < MAX_COUNT; i++) {
+                    if (_items[i] == null || _counts[i] < 1) {
+                        continue;
+                    }
+
+                    yield return (_items[i], _counts[i]);
                 }
-        } }
+            }
+        }
 
-        public int CountOf(T item)
-        {
+        public int CountOf(T item) {
+            var 
+            for (int i = 0; i < MAX_COUNT; i++){
+                if (_items[i])
+            }
             items.TryGetValue(item, out int count);
             return count;
         }
 
-        int IInventoryStorage.CountOf(AbstractInventoryItem item)
-        {
+        int IInventoryStorage.CountOf(AbstractInventoryItem item) {
             if (item is T castItem) {
                 return CountOf(castItem);
             }
@@ -67,8 +79,7 @@ namespace Foundation
             return 0;
         }
 
-        public void Add(T item, int amount)
-        {
+        public void Add(T item, int amount) {
             if (amount <= 0) {
                 DebugOnly.Error($"Attempted to add {amount} of '{item.Title}' into the inventory.");
                 return;
@@ -77,18 +88,17 @@ namespace Foundation
             items.TryGetValue(item, out int count);
             items[item] = count + amount;
 
+
             foreach (var it in OnChanged.Enumerate()) {
-                it.Do();
+                it.Do(item);
             }
         }
 
-        void IInventoryStorage.Add(AbstractInventoryItem item, int amount)
-        {
-            Add((T)item, amount);
+        void IInventoryStorage.Add(AbstractInventoryItem item, int amount) {
+            Add((T) item, amount);
         }
 
-        public bool Remove(T item, int amount)
-        {
+        public bool Remove(T item, int amount) {
             if (amount <= 0) {
                 DebugOnly.Error($"Attempted to remove {amount} of '{item.Title}' from the inventory.");
                 return false;
@@ -109,14 +119,13 @@ namespace Foundation
             }
 
             foreach (var it in OnChanged.Enumerate()) {
-                it.Do();
+                it.Do(item);
             }
 
             return true;
         }
 
-        bool IInventoryStorage.Remove(AbstractInventoryItem item, int amount)
-        {
+        bool IInventoryStorage.Remove(AbstractInventoryItem item, int amount) {
             if (item is T castItem) {
                 return Remove(castItem, amount);
             }
@@ -124,11 +133,10 @@ namespace Foundation
             return false;
         }
 
-        public void Clear()
-        {
+        public void Clear() {
             items.Clear();
 
-            foreach (var it in OnChanged.Enumerate()) {
+            foreach (var it in OnCleared.Enumerate()) {
                 it.Do();
             }
         }

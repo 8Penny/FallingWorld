@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Foundation;
+using Game.Components.Core;
 using Game.Managers.UIPoolManager;
 using Zenject;
 
-namespace Game.Components.UI {
-    public class UIPresenter : IDisposable {
+namespace Game.Components.Core {
+    public class FWPresenter : IDisposable {
         ObserverHandleManager observers;
-        private List<UIEvent> _uiEvents = new List<UIEvent>();
+        private List<FWEvent> _uiEvents = new List<FWEvent>();
         private IUIPoolManager _UIPoolManager;
 
         [Inject]
@@ -18,13 +19,13 @@ namespace Game.Components.UI {
         public virtual void OnViewAttached() {
         }
 
-        public void Bind(UIEvent ev, Action ac) {
+        public void Bind(FWEvent ev, Action ac) {
             ev.Add(ac);
             _uiEvents.Add(ev);
         }
 
-        protected UIEvent CreateEvent() {
-            UIEvent newEvent = _UIPoolManager.GetUIEvent();
+        protected FWEvent CreateEvent() {
+            FWEvent newEvent = _UIPoolManager.GetUIEvent();
             _uiEvents.Add(newEvent);
             return newEvent;
         }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using Zenject;
+using Game.Components.Core;
 using IInstantiator = Game.Managers.Instantiator.IInstantiator;
 
 namespace Game.Components.UI {

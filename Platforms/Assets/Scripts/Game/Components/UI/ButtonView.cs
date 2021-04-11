@@ -5,15 +5,16 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using Zenject;
+using Game.Components.Core;
 
 namespace Game.Components.UI
 {
-    public class ButtonView<T> : UIView<T> where T : ButtonPresenter
+    public class ButtonView<T> : FWView<T> where T : ButtonPresenter
     {
         [SerializeField]
         protected Button _button;
         
-        private UIEvent ButtonClick;
+        private FWEvent ButtonClick;
 
         protected virtual void Awake()
         {
@@ -24,7 +25,7 @@ namespace Game.Components.UI
         {
             base.OnAttached();
             ButtonClick = CreateEvent();
-            _presenter.Bind(ButtonClick, _presenter.OnButtonClick);
+            Bind(ButtonClick, _presenter.OnButtonClick);
         }
 
         private void OnButtonClick()

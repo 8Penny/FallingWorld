@@ -1,10 +1,10 @@
-﻿using Game.Components.UI;
+﻿using Game.Components.Core;
 
 namespace Game.Managers.UIPoolManager
 {
     public interface IUIPoolManager
     {
-        UIEvent GetUIEvent();
-        void ReturnUIEvent(UIEvent UIevent);
+        FWEvent GetUIEvent();
+        void ReturnUIEvent(FWEvent UIevent);
     }
 }

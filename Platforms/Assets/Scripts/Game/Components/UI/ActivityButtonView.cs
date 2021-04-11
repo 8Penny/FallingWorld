@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Game.Components.Core;
 
 namespace Game.Components.UI
 {
@@ -22,7 +23,7 @@ namespace Game.Components.UI
 
         protected override void OnAttached() {
             base.OnAttached();
-            _presenter.Bind(_presenter.OnUpdated, OnChanged);
+            Bind(_presenter.OnUpdated, OnChanged);
             OnChanged();
         }
 

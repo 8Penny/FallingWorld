@@ -28,6 +28,10 @@ namespace Game.Managers.PhaseManagers
             _isActive = false;
         }
 
+        public void OnInteract() {
+            
+        }
+
         public void Reset()
         {
             _isActive = false;

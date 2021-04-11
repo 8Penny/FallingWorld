@@ -11,6 +11,7 @@ namespace Game.Managers.PhaseManagers
         bool IsActive { get; }
         void StartPhase();
         void Finish();
+        void OnInteract();
 
         void Reset();
     }

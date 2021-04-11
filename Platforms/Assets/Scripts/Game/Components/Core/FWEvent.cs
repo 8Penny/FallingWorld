@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Game.Components.UI
+namespace Game.Components.Core
 {
-    public class UIEvent
+    public class FWEvent
     {
         public List<Action> _actions = new List<Action>();
         public void Invoke()

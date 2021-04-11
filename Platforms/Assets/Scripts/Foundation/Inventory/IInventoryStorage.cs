@@ -5,6 +5,7 @@ namespace Foundation
     public interface IInventoryStorage
     {
         ObserverList<IOnInventoryChanged> OnChanged { get; }
+        ObserverList<IOnInventoryClear> OnCleared { get; }
         IEnumerable<(AbstractInventoryItem item, int count)> RawItems { get; }
         int CountOf(AbstractInventoryItem item);
         void Add(AbstractInventoryItem item, int amount = 1);

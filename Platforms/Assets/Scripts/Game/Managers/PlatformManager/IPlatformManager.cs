@@ -9,5 +9,6 @@ namespace Game.Managers.PlatformManager
         List<Platform> GetFallingPlatforms();
         void BecomeAvailable(Platform platform);
         void BecomeNotAvailable(Platform platform);
+        void TryFixPlatform();
     }
 }

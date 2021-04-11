@@ -10,6 +10,7 @@ namespace Game.Managers
         private ICurrentGameStatsManager _gameStatsManager;
         private ISceneState _state;
 
+        private IPhaseManager _currentPhaseManager;
         private bool _isRunning;
         private Dictionary<GamePhase, IPhaseManager> _phaseManagers = new Dictionary<GamePhase, IPhaseManager>();
 
@@ -85,13 +86,21 @@ namespace Game.Managers
             {
                 return;
             }
-            IPhaseManager phaseManager = _phaseManagers[_gameStatsManager.CurrentGamePhase];
-            GamePhase nextPhase = phaseManager.NextPhase;
+
+            if (_currentPhaseManager == null) {
+                _currentPhaseManager = _phaseManagers[_gameStatsManager.CurrentGamePhase];
+            }
+            GamePhase nextPhase = _currentPhaseManager.NextPhase;
             IPhaseManager nextPhaseManager = _phaseManagers[nextPhase];
 
+            _currentPhaseManager = nextPhaseManager;
             _gameStatsManager.SetGamePhase(nextPhase);
-            nextPhaseManager.StartPhase();
+            _currentPhaseManager.StartPhase();
             DebugOnly.Message($"{nextPhase} start");
+        }
+
+        public void TryInteract() {
+            _currentPhaseManager.OnInteract();
         }
     }
 }

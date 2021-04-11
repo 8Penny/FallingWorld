@@ -17,6 +17,8 @@ namespace Game.Managers.PlatformManager
         public void SetPresenter(Platform presenter)
         {
             _presenter = presenter;
+            OnPositionUpdated();
+            OnStatusUpdated();
         }
         
         public void OnPositionUpdated()

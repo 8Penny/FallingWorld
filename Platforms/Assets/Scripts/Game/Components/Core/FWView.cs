@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Components.Core;
 using Game.Managers.UIPoolManager;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Components.UI
+namespace Game.Components.Core
 {
-    public class UIView<T> : MonoBehaviour where T : UIPresenter
+    public class FWView<T> : MonoBehaviour where T : FWPresenter
     {
-        private List<UIEvent> _uiEvents = new List<UIEvent>();
+        private List<FWEvent> _uiEvents = new List<FWEvent>();
         private IUIPoolManager _UIPoolManager;
         
         protected T _presenter;
@@ -30,11 +31,15 @@ namespace Game.Components.UI
             OnAttached();
         }
 
-        protected UIEvent CreateEvent()
+        protected FWEvent CreateEvent()
         {
-            UIEvent newEvent = _UIPoolManager.GetUIEvent();
+            FWEvent newEvent = _UIPoolManager.GetUIEvent();
             _uiEvents.Add(newEvent);
             return newEvent;
+        }
+
+        protected void Bind(FWEvent ev, Action ac) {
+            _presenter.Bind(ev, ac);
         }
         
         protected virtual void OnDestroy()

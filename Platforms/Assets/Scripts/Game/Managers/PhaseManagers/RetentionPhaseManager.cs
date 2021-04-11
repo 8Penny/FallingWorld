@@ -18,7 +18,7 @@ namespace Game.Managers.PhaseManagers
         public bool IsActive => _isActive;
         public float TimeLeft => _timeLeft;
 
-        private const float TIME = 3f; // TODO: to config
+        private const float TIME = 30f; // TODO: to config
 
         [Inject]
         public void Init(ISceneState sceneState, IPlatformManager platformManager)
@@ -46,10 +46,10 @@ namespace Game.Managers.PhaseManagers
         public void Finish()
         {
             var fallingPlatforms = _platformManager.GetFallingPlatforms();
-            for (int i = 0; i < fallingPlatforms.Count; i++)
-            {
-                fallingPlatforms[i].SetFallingSpeed(UnityEngine.Random.Range(0.4f, 1.1f));
-                fallingPlatforms[i].StartFalling();
+            for (int i = 0; i < fallingPlatforms.Count; i++) {
+                var fallingPlatform = fallingPlatforms[i];
+                fallingPlatform.SetFallingSpeed(UnityEngine.Random.Range(0.4f, 1.1f));
+                fallingPlatform.StartFalling();
             }
             
             foreach (var it in OnPhaseCompleted.Enumerate()) {
@@ -57,6 +57,10 @@ namespace Game.Managers.PhaseManagers
             }
             _isActive = false;
             DebugOnly.Message("FinishedRetention");
+        }
+
+        public void OnInteract() {
+            _platformManager.TryFixPlatform();
         }
 
         public void Reset()

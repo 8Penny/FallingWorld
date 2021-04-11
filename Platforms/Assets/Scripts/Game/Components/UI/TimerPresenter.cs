@@ -2,10 +2,11 @@
 using Game.Managers.PhaseManagers;
 using Game.Managers.UIPoolManager;
 using Zenject;
+using Game.Components.Core;
 
 namespace Game.Components.UI
 {
-    public class TimerPresenter : UIPresenter, IOnUpdate, IOnPhaseCompleted, IOnPhaseStarted
+    public class TimerPresenter : FWPresenter, IOnUpdate, IOnPhaseCompleted, IOnPhaseStarted
     {
         private int _timeLeft;
         
@@ -16,9 +17,9 @@ namespace Game.Components.UI
         public int TimeLeft => _timeLeft;
         public bool IsVisible => _retentionPhaseManager.IsActive;
 
-        public UIEvent OnTimerUpdated;
-        public UIEvent OnRetentionEnded;
-        public UIEvent OnRetentionStarted;
+        public FWEvent OnTimerUpdated;
+        public FWEvent OnRetentionEnded;
+        public FWEvent OnRetentionStarted;
         
         [Inject]
         public void Init(ISceneState sceneState, IRetentionPhaseManager retentionPhaseManager) {

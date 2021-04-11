@@ -45,7 +45,7 @@ namespace Foundation
         public void Stop()
         {
             if (_rigidbody != null) {
-                _rigidbody.velocity = Vector3.zero;
+                //_rigidbody.velocity = Vector3.zero;
             }
         }
 

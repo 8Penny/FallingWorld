@@ -9,13 +9,13 @@ namespace Foundation.Editor
     public sealed class LocalizationImporter : AbstractConfigImporter
     {
         LocalizationImporter()
-            : base("1fbkFgjUkkYPIowjcrfDshlH9WC1VYDHFdK6wUqNzVoc", "Localization")
+            : base("1UmLCKdAC5h_vgHbyxtySct4_6LLJcHIxRQgWdREXDkU", "Localization")
         {
         }
 
         protected override async Task ProcessData(IList<IList<object>> values)
         {
-            // Обрабатываем заголовок
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
             if (values.Count < 1)
                 throw new Exception("Missing localization data.");
@@ -38,7 +38,7 @@ namespace Foundation.Editor
                 languages.Add(lang);
             }
 
-            // Обрабатываем данные
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
             var dict = new Dictionary<string, Dictionary<Language, string>>();
 
@@ -58,7 +58,7 @@ namespace Foundation.Editor
                     rowDict[languages[col - 1]] = values[row][col].ToString();
             }
 
-            // Сохраняем данные
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
             LocalizationData.EditorInvalidateCache();
 

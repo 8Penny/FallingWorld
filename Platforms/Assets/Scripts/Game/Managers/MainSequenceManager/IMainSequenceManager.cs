@@ -2,7 +2,7 @@
 
 namespace Game.Managers
 {
-    public interface IMainSequenceManager
-    {
+    public interface IMainSequenceManager {
+        void TryInteract();
     }
 }
