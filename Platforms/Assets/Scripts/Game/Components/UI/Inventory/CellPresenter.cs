@@ -15,7 +15,7 @@ namespace Game.Components.UI.Inventory {
         public int Count => _itemCount;
 
 
-        public void SetItem(AbstractInventoryItem item, int count) {
+        public void SetItem(InventoryItem item, int count) {
             _item = item;
             _itemCount = count;
             OnCellUpdated.Invoke();

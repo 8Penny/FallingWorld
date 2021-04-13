@@ -12,7 +12,7 @@ namespace Game.Components.UI.Inventory {
         private InventoryItem _defaultItem;
 
         private IPlayerManager _playerManager;
-        private IInventoryStorage _inventory;
+        private IInventoryStorage<InventoryItem> _inventory;
 
         private List<CellPresenter> _presenters;
         private int _firstFreeIndex;
@@ -37,17 +37,16 @@ namespace Game.Components.UI.Inventory {
             
         }
 
-        void IOnInventoryChanged.Do(AbstractInventoryItem item) {
+        void IOnInventoryChanged.Do() {
             
         }
 
         void IOnPlayerAdded.Do(int playerIndex) {
             var player = _playerManager.GetPlayer(0);
-            _inventory = player.Inventory.RawStorage;
+            _inventory = player.Inventory as IInventoryStorage<InventoryItem>;
             Observe(_inventory.OnChanged);
 
-            
-            foreach (var item in _inventory.RawItems) {
+            foreach (var item in _inventory.Items) {
                 if (_firstFreeIndex < _presenters.Count) {
                     _presenters[_firstFreeIndex++].SetItem(item.item, item.count);
                 }

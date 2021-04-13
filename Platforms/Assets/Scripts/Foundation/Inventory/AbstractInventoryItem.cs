@@ -8,6 +8,7 @@ namespace Foundation
         public LocalizedString Title;
         public LocalizedString Description;
         public Sprite Icon;
+        public int MaxCountInStack = 10;
 
         public virtual bool LessThan(AbstractInventoryItem other)
         {
