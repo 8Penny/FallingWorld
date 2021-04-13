@@ -14,7 +14,10 @@ namespace Game.Components.Core {
         [Inject]
         public void Init(IUIPoolManager uiPoolManager) {
             _UIPoolManager = uiPoolManager;
+            OnInit();
         }
+        
+        protected virtual void OnInit(){}
 
         public virtual void OnViewAttached() {
         }

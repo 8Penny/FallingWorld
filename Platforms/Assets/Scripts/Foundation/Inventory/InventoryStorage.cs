@@ -7,47 +7,20 @@ namespace Foundation
     public sealed class InventoryStorage<T> : IInventoryStorage<T>
         where T : AbstractInventoryItem
     {
-        sealed class Comparer : IComparer<T>
-        {
-            public static readonly Comparer Instance = new Comparer();
-
-            public int Compare(T a, T b)
-            {
-                if (a.LessThan(b))
-                {
-                    return -1;
-                }
-
-                if (b.LessThan(a))
-                {
-                    return 1;
-                }
-
-                int iidA = a.GetInstanceID();
-                int iidB = b.GetInstanceID();
-                if (iidA < iidB)
-                {
-                    return -1;
-                }
-
-                if (iidA > iidB)
-                {
-                    return 1;
-                }
-
-                return 0;
-            }
-        }
 
         private const int MAX_COUNT = 15;
+
         private readonly T[] _items = new T[MAX_COUNT];
         private readonly int[] _counts = new int[MAX_COUNT];
         private readonly Dictionary<T, List<int>> _itemCellIndices = new Dictionary<T, List<int>>();
-
         private readonly List<int> _updatedCells = new List<int>();
 
-        public ObserverList<IOnInventoryChanged> OnChanged { get; } = new ObserverList<IOnInventoryChanged>();
+        public T this[int index] => _items[index];
 
+        public int StorageCellsCount => MAX_COUNT;
+        
+        public ObserverList<IOnInventoryChanged> OnChanged { get; } =
+            new ObserverList<IOnInventoryChanged>();
         public ObserverList<IOnInventoryCellUpdated> OnCellsUpdated { get; } =
             new ObserverList<IOnInventoryCellUpdated>();
 
@@ -82,7 +55,9 @@ namespace Foundation
                 }
             }
         }
-
+        public int CountInCell(int index) {
+            return _counts[index];
+        }
         public int CountOf(T item)
         {
             var itemCount = 0;

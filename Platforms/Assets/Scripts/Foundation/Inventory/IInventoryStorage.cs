@@ -11,6 +11,7 @@ namespace Foundation
         void Add(AbstractInventoryItem item, int amount = 1);
         bool Remove(AbstractInventoryItem item, int amount = 1);
         void Clear();
+        int StorageCellsCount { get; }
     }
 
     public interface IInventoryStorage<T> : IInventoryStorage
@@ -20,5 +21,7 @@ namespace Foundation
         int CountOf(T item);
         void Add(T item, int amount = 1);
         bool Remove(T item, int amount = 1);
+        T this[int index] { get; }
+        int CountInCell(int index);
     }
 }

@@ -1,3 +1,4 @@
+using Foundation;
 using Game.Components.Core;
 using TMPro;
 using UnityEngine;
@@ -24,12 +25,7 @@ namespace Game.Components.UI.Inventory {
             }
 
             _gameObject.SetActive(true);
-            if (_presenter.Count == 1) {
-                _text.text = "";
-            }
-            else {
-                _text.text = _presenter.Count.ToString();
-            }
+            _text.text = _presenter.Count == 1 ? "" : _presenter.Count.ToString();
 
             _image.sprite = _presenter.Image;
         }
