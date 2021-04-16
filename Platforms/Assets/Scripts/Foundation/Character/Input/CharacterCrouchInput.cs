@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Foundation
+namespace Foundation.Character.Input
 {
     public sealed class CharacterCrouchInput : AbstractService<ICharacterCrouchInput>, ICharacterCrouchInput, IOnUpdate
     {

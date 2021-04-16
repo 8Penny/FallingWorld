@@ -1,7 +1,4 @@
-using UnityEngine;
-using Zenject;
-
-namespace Foundation
+namespace Foundation.Character.Input
 {
     public interface ICharacterCrouchInput
     {

@@ -1,9 +1,7 @@
-using System;
-using Joysticks;
 using UnityEngine;
 using Zenject;
 
-namespace Foundation
+namespace Foundation.Character.Input
 {
     public sealed class CharacterMovementInput : AbstractBehaviour, IOnUpdate
     {

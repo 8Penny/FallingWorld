@@ -1,7 +1,6 @@
-using UnityEngine;
 using Zenject;
 
-namespace Foundation
+namespace Foundation.Character.Input
 {
     public sealed class CharacterJumpInput : AbstractService<ICharacterJumpInput>, ICharacterJumpInput, IOnUpdate
     {
@@ -23,8 +22,6 @@ namespace Foundation
         {
             var input = inputManager.InputForPlayer(player.Index);
             if (input.Action(InputActionName).Triggered) {
-                
-
                 foreach (var observer in OnCharacterJump.Enumerate()) {
                     observer.Do();
                 }

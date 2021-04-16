@@ -1,3 +1,4 @@
+using Foundation.Character.Input;
 using UnityEngine;
 
 namespace Foundation
