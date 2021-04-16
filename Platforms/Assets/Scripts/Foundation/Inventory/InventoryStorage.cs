@@ -1,5 +1,3 @@
-using UnityEngine;
-using System;
 using System.Collections.Generic;
 
 namespace Foundation
@@ -7,8 +5,9 @@ namespace Foundation
     public sealed class InventoryStorage<T> : IInventoryStorage<T>
         where T : AbstractInventoryItem
     {
-
         private const int MAX_COUNT = 15;
+
+        private int _storageSize;
 
         private readonly T[] _items = new T[MAX_COUNT];
         private readonly int[] _counts = new int[MAX_COUNT];
@@ -17,18 +16,23 @@ namespace Foundation
 
         public T this[int index] => _items[index];
 
-        public int StorageCellsCount => MAX_COUNT;
+        public int StorageSize => _storageSize;
         
         public ObserverList<IOnInventoryChanged> OnChanged { get; } =
             new ObserverList<IOnInventoryChanged>();
         public ObserverList<IOnInventoryCellUpdated> OnCellsUpdated { get; } =
             new ObserverList<IOnInventoryCellUpdated>();
 
+        public InventoryStorage(int storageSize = 15)
+        {
+            _storageSize = storageSize;
+        }
+
         public IEnumerable<(T item, int count)> Items
         {
             get
             {
-                for (int i = 0; i < MAX_COUNT; i++)
+                for (int i = 0; i < _storageSize; i++)
                 {
                     if (_items[i] == null || _counts[i] < 1)
                     {
@@ -44,7 +48,7 @@ namespace Foundation
         {
             get
             {
-                for (int i = 0; i < MAX_COUNT; i++)
+                for (int i = 0; i < _storageSize; i++)
                 {
                     if (_items[i] == null || _counts[i] < 1)
                     {
@@ -55,20 +59,27 @@ namespace Foundation
                 }
             }
         }
-        public int CountInCell(int index) {
-            return _counts[index];
+        
+        public int CountInCell(int index)
+        {
+            return index >= _storageSize ? 0 : _counts[index];
         }
+        
         public int CountOf(T item)
         {
-            var itemCount = 0;
-            if (_itemCellIndices.TryGetValue(item, out var indices))
+            if (!_itemCellIndices.TryGetValue(item, out var indices))
             {
-                for (int i = 0; i < indices.Count; i++)
+                return 0;
+            }
+            var itemCount = 0;
+            for (int i = 0; i < indices.Count; i++)
+            {
+                int index = indices[i];
+                if (index < _storageSize)
                 {
-                    itemCount += _counts[indices[i]];
+                    itemCount += _counts[indices[i]];  
                 }
             }
-
             return itemCount;
         }
 
@@ -82,8 +93,9 @@ namespace Foundation
             return 0;
         }
 
-        public void Add(T item, int amount)
+        public void Add(T item, int amount, out int amountRemainder)
         {
+            amountRemainder = 0;
             if (amount <= 0)
             {
                 DebugOnly.Error($"Attempted to add {amount} of '{item.Title}' into the inventory.");
@@ -92,25 +104,30 @@ namespace Foundation
 
             _updatedCells.Clear();
 
-            int remainder = amount;
-            if (_itemCellIndices.TryGetValue(item, out var indices))
+            amountRemainder = amount;
+            _itemCellIndices.TryGetValue(item, out var indices);
+            if (indices != null)
             {
-                if (indices != null)
+                for (int i = 0; i < indices.Count; i++)
                 {
-                    for (int i = 0; i < indices.Count; i++)
+                    var index = indices[i];
+                    if (index >= _storageSize)
                     {
-                        _updatedCells.Add(i);
-                        remainder = AddExtraItemsToCell(i, remainder);
-                        if (remainder <= 0)
-                        {
-                            CallCellsUpdated(_updatedCells);
-                            return;
-                        }
+                        continue;
+                    }
+
+                    _updatedCells.Add(index);
+                    amountRemainder = AddExtraItemsToCell(index, amountRemainder);
+                    if (amountRemainder <= 0)
+                    {
+                        CallCellsUpdated(_updatedCells);
+                        return;
                     }
                 }
             }
+            
 
-            for (int i = 0; i < MAX_COUNT; i++)
+            for (int i = 0; i < _storageSize; i++)
             {
                 if (_items[i] != null)
                 {
@@ -120,8 +137,8 @@ namespace Foundation
                 _updatedCells.Add(i);
                 _items[i] = item;
                 AddIndexToItemCellIndices(item, i);
-                remainder = AddExtraItemsToCell(i, remainder);
-                if (remainder <= 0)
+                amountRemainder = AddExtraItemsToCell(i, amountRemainder);
+                if (amountRemainder <= 0)
                 {
                     break;
                 }
@@ -179,6 +196,11 @@ namespace Foundation
             _itemCellIndices[item] = new List<int>() {index};
         }
 
+        public void Add(T item, int amount)
+        {
+            Add(item, amount, out var remainder);
+        }
+
         public bool Remove(T item, int amount)
         {
             if (amount <= 0)
@@ -222,9 +244,14 @@ namespace Foundation
             _itemCellIndices[item].Remove(index);
         }
 
+        void IInventoryStorage.Add(AbstractInventoryItem item, int amount, out int remainder)
+        {
+            Add((T) item, amount, out remainder);
+        }
+
         void IInventoryStorage.Add(AbstractInventoryItem item, int amount)
         {
-            Add((T) item, amount);
+            Add((T) item, amount, out var remainder);
         }
 
         bool IInventoryStorage.Remove(AbstractInventoryItem item, int amount)

@@ -44,7 +44,7 @@ namespace Game.Components.UI.Inventory {
             Observe(_inventory.OnCellsUpdated);
             
 
-            for (int i = 0; i < _inventory.StorageCellsCount; i++) {
+            for (int i = 0; i < _inventory.StorageSize; i++) {
                 _presenters[i].SetItem(_inventory[i], _inventory.CountInCell(i));
             }
         }
