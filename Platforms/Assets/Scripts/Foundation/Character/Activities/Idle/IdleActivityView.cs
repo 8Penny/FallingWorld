@@ -1,7 +1,10 @@
-﻿namespace Foundation.Activities.Idle
+﻿using UnityEngine;
+
+namespace Foundation.Activities.Idle
 {
     public class IdleActivityView : CharacterActivityView
     {
+
         public override void OnStart()
         {
         }

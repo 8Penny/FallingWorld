@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Foundation.Activities.Idle;
+using Zenject;
 
 namespace Foundation.Activities
 {
@@ -8,6 +8,14 @@ namespace Foundation.Activities
     {
         private Dictionary<ActivityType, Stack<CharacterActivity>> _pool =
             new Dictionary<ActivityType, Stack<CharacterActivity>>();
+
+        private AnimatorController _animatorController;
+        private IInstantiator _instantiator;
+
+        public ActivityFabric(AnimatorController animator, IInstantiator instantiator) {
+            _animatorController = animator;
+            _instantiator = instantiator;
+        }
         public CharacterActivity CreateActivity(ActivityType activityType)
         {
 
@@ -24,13 +32,18 @@ namespace Foundation.Activities
             switch (activityType)
             {
                 case ActivityType.Idle:
-                    activity = new IdleActivity();
+                    activity = _instantiator.Instantiate<IdleActivity>();
                     view = new IdleActivityView();
+                    break;
+                case ActivityType.Movement:
+                    activity = _instantiator.Instantiate<MovementActivity>();
+                    view = new MovementActivityView();
                     break;
                 default:
                     break;
             }
             
+            view.SetUp(_animatorController);
             activity?.SetUp(view);
             return activity;
         }

@@ -24,12 +24,18 @@ namespace Foundation
             agent = GetComponent<NavMeshAgent>();
         }
 
+        public float Speed => 1;
+
         public void Move(Vector2 dir)
         {
             if (agent != null) {
                 agent.Move(new Vector3(dir.x, 0.0f, dir.y));
                 Look(dir);
             }
+        }
+
+        public void SetSpeed(float value) {
+            throw new System.NotImplementedException();
         }
 
         public void NavigateTo(Vector2 target)

@@ -1,9 +1,10 @@
-﻿using UnityEditor.Animations;
+﻿using UnityEngine;
 
 namespace Foundation.Activities
 {
     public abstract class CharacterActivityView
     {
+        protected static readonly int StopID = Animator.StringToHash("Stop");
         protected AnimatorController _animatorController;
         public void SetUp(AnimatorController animatorController)
         {

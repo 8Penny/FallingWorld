@@ -13,8 +13,6 @@ namespace Foundation
             if (collision.collider.TryGetComponent<ICollectible>(out var collectible)) {
                 collectible.Collect(inventory.RawStorage);
             }
-            Debug.Log(inventory.RawStorage.RawItems.Count());
-                
         }
 
         public void OnTriggerEnter(Collider other)

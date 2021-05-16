@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using Foundation.Activities;
+using UnityEngine;
 using Zenject;
 
 namespace Foundation.Character.Activities.ActivityQueue
 {
-    public class CharacterActivityQueue : AbstractService<ICharacterActivityQueue>, ICharacterActivityQueue, IOnUpdate
-    {
+    public class CharacterActivityQueue: AbstractService<ICharacterActivityQueue>, IOnUpdate, ICharacterActivityQueue {
+        [SerializeField]
+        private AnimatorController _animator;
+        
         private ISceneState _sceneState;
         private CharacterActivity _currentActivity;
-        private ActivityFabric _activityFabric = new ActivityFabric();
+        private ActivityFabric _activityFabric;
 
         private Queue<ActivityType> _queue =
             new Queue<ActivityType>();
@@ -16,12 +19,15 @@ namespace Foundation.Character.Activities.ActivityQueue
         public CharacterActivity CurrentActivity => _currentActivity;
         public CharacterActivityView CurrentActivityView => _currentActivity.View;
 
+        private const int QUEUE_CAPACITY= 4;
+
         [Inject]
-        public void Init(ISceneState sceneState)
+        public void Init(ISceneState sceneState, IInstantiator instantiator)
         {
             _sceneState = sceneState;
+            _activityFabric = new ActivityFabric(_animator, instantiator);
         }
-        
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -134,6 +140,10 @@ namespace Foundation.Character.Activities.ActivityQueue
 
         public void AddActivity(ActivityType activityType)
         {
+            if (_queue.Count > QUEUE_CAPACITY) {
+                Debug.Log("max");
+                return;
+            }
             _queue.Enqueue(activityType);
         }
 

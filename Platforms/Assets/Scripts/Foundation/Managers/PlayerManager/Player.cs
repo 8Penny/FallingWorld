@@ -1,31 +1,40 @@
+using Foundation.Activities;
 using UnityEngine;
 using Zenject;
 
-namespace Foundation
-{
-    public sealed class Player : AbstractService<IPlayer>, IPlayer, IOnCharacterHealed, IOnCharacterDamaged, IOnCharacterDied
-    {
+namespace Foundation {
+    public sealed class Player : AbstractService<IPlayer>, IPlayer, IOnCharacterHealed, IOnCharacterDamaged,
+        IOnCharacterDied {
         int index = -1;
         public int Index => index;
 
         public Vector3 Position => transform.position;
 
-        [InjectOptional] ICharacterHealth health = default;
+        [InjectOptional]
+        ICharacterHealth health = default;
         public ICharacterHealth Health => health;
 
-        [InjectOptional] ICharacterAgent agent = default;
+        [InjectOptional]
+        ICharacterAgent agent = default;
         public ICharacterAgent Agent => agent;
 
-        [InjectOptional] IInventory inventory = default;
+        [InjectOptional]
+        ICharacterActivityQueue activityQueue = default;
+        public ICharacterActivityQueue ActivityQueue => activityQueue;
+
+        [InjectOptional]
+        IInventory inventory = default;
         public IInventory Inventory => inventory;
+        
+        [Inject]
+        IPlayerManager playerManager = default;
+        
+        [SerializeField]
+        Sprite portrait;
 
-        [Inject] IPlayerManager playerManager = default;
-
-        [SerializeField] Sprite portrait;
         public Sprite Portrait => portrait;
 
-        protected override void OnEnable()
-        {
+        protected override void OnEnable() {
             base.OnEnable();
 
             if (health != null) {
@@ -37,29 +46,25 @@ namespace Foundation
             playerManager.AddPlayer(this, out index);
         }
 
-        protected override void OnDisable()
-        {
+        protected override void OnDisable() {
             base.OnDisable();
             playerManager.RemovePlayer(this);
             index = -1;
         }
 
-        void IOnCharacterHealed.Do(ICharacterHealth health, IAttacker attacker, float amount, float newHealth)
-        {
+        void IOnCharacterHealed.Do(ICharacterHealth health, IAttacker attacker, float amount, float newHealth) {
             foreach (var it in playerManager.OnPlayerHealed.Enumerate()) {
                 it.Do(index, attacker, amount, newHealth);
             }
         }
 
-        void IOnCharacterDamaged.Do(ICharacterHealth health, IAttacker attacker, float amount, float newHealth)
-        {
+        void IOnCharacterDamaged.Do(ICharacterHealth health, IAttacker attacker, float amount, float newHealth) {
             foreach (var it in playerManager.OnPlayerDamaged.Enumerate()) {
                 it.Do(index, attacker, amount, newHealth);
             }
         }
 
-        void IOnCharacterDied.Do(ICharacterHealth health, IAttacker attacker)
-        {
+        void IOnCharacterDied.Do(ICharacterHealth health, IAttacker attacker) {
             foreach (var it in playerManager.OnPlayerDied.Enumerate()) {
                 it.Do(index, attacker);
             }

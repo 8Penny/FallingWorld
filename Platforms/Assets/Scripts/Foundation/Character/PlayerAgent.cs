@@ -16,20 +16,26 @@ namespace Foundation
         public Transform CharacterTransform;
         public bool UpdatePosition;
         public bool UpdateRotation;
+        public float Speed => _speed;
         
         private Rigidbody _rigidbody;
+        private float _speed;
 
         void Awake()
         {
             _rigidbody =  GetComponent<Rigidbody>();
         }
-
+        
         public void Move(Vector2 dir)
         {
             if (_rigidbody != null) {
                 _rigidbody.MovePosition(transform.position + new Vector3(dir.x, 0.0f, dir.y));
                 Look(dir);
             }
+        }
+
+        public void SetSpeed(float value) {
+            _speed = value;
         }
 
         public void NavigateTo(Vector2 target)
@@ -42,11 +48,8 @@ namespace Foundation
             transform.localRotation = Quaternion.identity;
         }
 
-        public void Stop()
-        {
-            if (_rigidbody != null) {
-                //_rigidbody.velocity = Vector3.zero;
-            }
+        public void Stop() {
+            _speed = 0;
         }
 
         protected override void OnEnable()

@@ -68,7 +68,9 @@ namespace Foundation
             Canvas.sortingOrder = order;
         }
 
+#if UNITY_EDITOR
         [UnityEditor.Callbacks.PostProcessScene(0)]
+#endif
         static void RemoveCamera()
         {
             var objects = FindObjectsOfType<CanvasController>();

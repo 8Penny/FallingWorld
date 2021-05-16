@@ -1,8 +1,8 @@
 ﻿namespace Foundation.Activities
 {
-    public abstract class CharacterActivity
+    public abstract class CharacterActivity : SubscribableEntity
     {
-        private CharacterActivityView _view;
+        protected CharacterActivityView _view;
         private bool _isRunning;
 
         public CharacterActivityView View => _view;
@@ -24,12 +24,14 @@
         {
             _isRunning = false;
             _view.OnFinish();
+            Reset();
         }
 
         public virtual void Cancel()
         {
             _isRunning = false;
             _view.OnCancel();
+            Reset();
         }
 
         public virtual void Reset()
