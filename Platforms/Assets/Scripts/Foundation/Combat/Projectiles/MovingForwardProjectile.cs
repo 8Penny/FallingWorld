@@ -25,7 +25,7 @@ namespace Foundation
             Observe(state.OnFixedUpdate);
         }
 
-        void IOnFixedUpdate.Do()
+        void IOnFixedUpdate.Do(float value)
         {
             if (!Launched) {
                 physicsBody.isKinematic = true;

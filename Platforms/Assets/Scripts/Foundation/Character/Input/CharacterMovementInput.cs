@@ -1,10 +1,11 @@
+
 using Foundation.Activities;
 using UnityEngine;
 using Zenject;
 
 namespace Foundation.Character.Input
 {
-    public sealed class CharacterMovementInput : AbstractBehaviour, IOnUpdate
+    public sealed class CharacterMovementInput : AbstractBehaviour, IOnFixedUpdate
     {
         public string InputActionName;
         public float ForwardMovementSpeed;
@@ -24,10 +25,10 @@ namespace Foundation.Character.Input
         protected override void OnEnable()
         {
             base.OnEnable();
-            Observe(sceneState.OnUpdate);
+            Observe(sceneState.OnFixedUpdate);
         }
 
-        void IOnUpdate.Do(float timeDelta)
+        void IOnFixedUpdate.Do(float timeDelta)
         {
             var input = inputManager.InputForPlayer(player.Index);
             

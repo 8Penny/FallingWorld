@@ -11,9 +11,6 @@ namespace Game.Managers
 {
     public class CurrentGameStatsManager : AbstractService<ICurrentGameStatsManager>, ICurrentGameStatsManager
     {
-        [SerializeField]
-        private TMP_Text _debugText;
-        
         private GamePhase _currentGamePhase;
         public ObserverList<IOnPhaseChanged> OnPhaseChanged { get; } = new ObserverList<IOnPhaseChanged>();
         public GamePhase CurrentGamePhase => _currentGamePhase;
@@ -32,10 +29,6 @@ namespace Game.Managers
             foreach (var it in OnPhaseChanged.Enumerate()) {
                 it.Do(phase);
             }
-        }
-
-        public void SetDebugText(string text) {
-            _debugText.text = text;
         }
     }
 }

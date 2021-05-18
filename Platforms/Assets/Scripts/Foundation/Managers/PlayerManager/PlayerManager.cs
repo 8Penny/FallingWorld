@@ -46,7 +46,7 @@ namespace Foundation
                 --NumPlayers;
                 players[index] = null;
 
-                foreach (var observer in OnPlayerAdded.Enumerate()) {
+                foreach (var observer in OnPlayerRemoved.Enumerate()) {
                     observer.Do(index);
                 }
             }

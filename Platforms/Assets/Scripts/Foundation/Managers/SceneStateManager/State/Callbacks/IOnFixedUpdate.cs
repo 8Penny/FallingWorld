@@ -2,6 +2,6 @@ namespace Foundation
 {
     public interface IOnFixedUpdate
     {
-        void Do();
+        void Do(float deltaTime);
     }
 }

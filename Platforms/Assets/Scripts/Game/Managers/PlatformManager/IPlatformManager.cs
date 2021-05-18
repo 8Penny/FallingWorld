@@ -10,5 +10,6 @@ namespace Game.Managers.PlatformManager
         void BecomeAvailable(Platform platform);
         void BecomeNotAvailable(Platform platform);
         void TryFixPlatform();
+        void DebugFixPlatform(float percent = 1);
     }
 }

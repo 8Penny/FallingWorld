@@ -106,9 +106,10 @@ namespace Foundation
 
         void FixedUpdate()
         {
+            float timeDelta = Time.deltaTime;
             foreach (var state in CachedGameStates()) {
                 foreach (var ticker in state.OnFixedUpdate.Enumerate()) {
-                    ticker.Do();
+                    ticker.Do(timeDelta);
                 }
 
                 if (!state.UpdateParentState) {

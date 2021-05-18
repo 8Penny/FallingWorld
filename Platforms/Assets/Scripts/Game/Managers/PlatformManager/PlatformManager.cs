@@ -2,6 +2,7 @@
 using Foundation;
 using Game.Managers.PhaseManagers;
 using Game.Managers.PlatformGeneratorManager;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Managers.PlatformManager
@@ -161,5 +162,16 @@ namespace Game.Managers.PlatformManager
         {
             _player = _playerManager.GetPlayer(playerIndex);
         }
+
+#if DEBUG
+        public void DebugFixPlatform(float percent = 1) {
+            foreach (var p in _platforms) {
+                if (Random.value < percent) {
+                    p.SetStatus(PlatformStatus.Fixed);
+                }
+            }
+            UpdateSelectedPlatform();
+        }
+#endif
     }
 }
