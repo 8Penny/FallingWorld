@@ -11,5 +11,6 @@ namespace Foundation
         void RegisterJoystick(IJoystick joystick);
         void UnregisterJoystick();
         IJoystick Joystick { get; }
+        void SetInputAvailable(bool isAvailable);
     }
 }

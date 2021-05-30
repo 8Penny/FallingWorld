@@ -5,7 +5,7 @@ using Zenject;
 namespace Foundation
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public sealed class CharacterAgent : AbstractService<ICharacterAgent>, ICharacterAgent, IOnUpdate
+    public sealed class CharacterAgent : AbstractService<ICharacterAgent>, IOnUpdate
     {
         public NavMeshAgent agent;
 

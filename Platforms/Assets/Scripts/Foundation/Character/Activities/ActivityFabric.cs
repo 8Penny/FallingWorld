@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Foundation.Activities.Falling;
 using Foundation.Activities.Idle;
 using Zenject;
 
@@ -38,6 +39,10 @@ namespace Foundation.Activities
                 case ActivityType.Movement:
                     activity = _instantiator.Instantiate<MovementActivity>();
                     view = new MovementActivityView();
+                    break;
+                case ActivityType.Falling:
+                    activity = _instantiator.Instantiate<FallingActivity>();
+                    view = new FallingActivityView();
                     break;
                 default:
                     break;

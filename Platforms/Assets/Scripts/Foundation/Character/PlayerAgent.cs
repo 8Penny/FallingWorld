@@ -5,8 +5,8 @@ using Zenject;
 namespace Foundation
 {
     [RequireComponent(typeof(Rigidbody))]
-    public sealed class PlayerAgent : AbstractService<ICharacterAgent>, ICharacterAgent, IOnUpdate
-    {
+    public sealed class PlayerAgent : AbstractService<ICharacterAgent>, ICharacterAgent, IOnUpdate {
+        private const float FALLING_SPEED = 3f; //TODO: to config
         [SerializeField]
         private Transform _rotationTransform;
 
@@ -17,7 +17,8 @@ namespace Foundation
         public bool UpdatePosition;
         public bool UpdateRotation;
         public float Speed => _speed;
-        
+        public Vector3 Position => CharacterTransform.position;
+
         private Rigidbody _rigidbody;
         private float _speed;
 
@@ -32,6 +33,10 @@ namespace Foundation
                 _rigidbody.MovePosition(transform.position + new Vector3(dir.x, 0.0f, dir.y));
                 Look(dir);
             }
+        }
+
+        public void SetPosition(Vector3 position) {
+            _rigidbody.MovePosition(position);
         }
 
         public void SetSpeed(float value) {
@@ -50,6 +55,20 @@ namespace Foundation
 
         public void Stop() {
             _speed = 0;
+        }
+
+        public void SetConstantVelocity() {
+            _rigidbody.velocity = FALLING_SPEED * (_rigidbody.velocity.normalized);
+        }
+
+        public void FreezeXZPositions() {
+            _rigidbody.constraints = RigidbodyConstraints.FreezePositionX |
+                                     RigidbodyConstraints.FreezePositionZ |
+                                     RigidbodyConstraints.FreezeRotation;
+        }
+        
+        public void UnfreezePositions() {
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
 
         protected override void OnEnable()

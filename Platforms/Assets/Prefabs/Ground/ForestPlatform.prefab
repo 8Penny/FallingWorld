@@ -101,6 +101,7 @@ MonoBehaviour:
   _transform: {fileID: 2458954859048898543}
   _fixedParts: {fileID: 5811479793345120011}
   _availableParts: {fileID: 969924969523987255}
+  _meshRenderer: {fileID: 2458954859269691388}
 --- !u!1 &2458954859269691385
 GameObject:
   m_ObjectHideFlags: 0

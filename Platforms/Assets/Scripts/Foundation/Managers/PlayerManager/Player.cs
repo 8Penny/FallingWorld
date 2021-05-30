@@ -8,7 +8,7 @@ namespace Foundation {
         int index = -1;
         public int Index => index;
 
-        public Vector3 Position => transform.position;
+        public Vector3 Position => Agent.Position;
 
         [InjectOptional]
         ICharacterHealth health = default;

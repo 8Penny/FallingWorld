@@ -17,6 +17,9 @@ namespace Game.Managers
         private IRetentionPhaseManager _retention;
         private IActionPhaseManager _action;
         private IFallingPhaseManager _falling;
+        
+        public IPhaseManager CurrentPhaseManager => _currentPhaseManager;
+        public ObserverList<IOnPhaseCompleted> OnPhaseChanged { get; } = new ObserverList<IOnPhaseCompleted>();
 
 
         [Inject]
@@ -91,16 +94,26 @@ namespace Game.Managers
                 _currentPhaseManager = _phaseManagers[_gameStatsManager.CurrentGamePhase];
             }
             GamePhase nextPhase = _currentPhaseManager.NextPhase;
-            IPhaseManager nextPhaseManager = _phaseManagers[nextPhase];
-
-            _currentPhaseManager = nextPhaseManager;
-            _gameStatsManager.SetGamePhase(nextPhase);
-            _currentPhaseManager.StartPhase();
-            DebugOnly.Message($"{nextPhase} start");
+            ChangeState(nextPhase);
         }
 
         public void TryInteract() {
             _currentPhaseManager.OnInteract();
         }
+
+        public void ForceChangeState(GamePhase state) {
+            _currentPhaseManager.Reset();
+            ChangeState(state);
+        }
+
+        private void ChangeState(GamePhase state) {
+            IPhaseManager nextPhaseManager = _phaseManagers[state];
+
+            _currentPhaseManager = nextPhaseManager;
+            _gameStatsManager.SetGamePhase(state);
+            _currentPhaseManager.StartPhase();
+            DebugOnly.Message($"{state} start");
+        }
+
     }
 }

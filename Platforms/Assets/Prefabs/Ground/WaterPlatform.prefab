@@ -101,6 +101,7 @@ MonoBehaviour:
   _transform: {fileID: 2458954859048898543}
   _fixedParts: {fileID: 4426551117379143902}
   _availableParts: {fileID: 3206467374071184575}
+  _meshRenderer: {fileID: 2458954859269691388}
 --- !u!1 &2458954859269691385
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +264,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectablePanel
       objectReference: {fileID: 0}
+    - target: {fileID: 2663560140963574913, guid: c15ecb2b493ae0e458b1a99ad35dba3a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c15ecb2b493ae0e458b1a99ad35dba3a, type: 3}
 --- !u!1 &3206467374071184575 stripped
@@ -288,6 +294,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FixedPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 804714584408608976, guid: 4fbe4ccdb78d0ef4e8f6f2a378eb0a2c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8608683436716501426, guid: 4fbe4ccdb78d0ef4e8f6f2a378eb0a2c,
         type: 3}

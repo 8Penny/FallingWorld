@@ -8,8 +8,8 @@ namespace Foundation.Character.Input
     public sealed class CharacterMovementInput : AbstractBehaviour, IOnFixedUpdate
     {
         public string InputActionName;
-        public float ForwardMovementSpeed;
-        public float SideMovementSpeed;
+        public float ForwardMovementSpeed; //TODO: to config
+        public float SideMovementSpeed; //TODO: to config
 
         [Inject] 
         public IPlayer player = default;
@@ -32,7 +32,7 @@ namespace Foundation.Character.Input
         {
             var input = inputManager.InputForPlayer(player.Index);
             
-            var dir = inputManager.Joystick.Direction;
+            var dir = inputManager.Joystick?.Direction ?? Vector3.zero;
             if (TryMove(dir, timeDelta)) {
                 return;
             }

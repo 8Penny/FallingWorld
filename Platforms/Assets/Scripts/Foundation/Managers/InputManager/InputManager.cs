@@ -10,9 +10,19 @@ namespace Foundation {
         private List<IInputSource> _inputSources = new List<IInputSource>();
         private List<IInputSource> _inputSourceOverrides = new List<IInputSource>();
 
+        private bool _isInputAvailable = true;
         private IJoystick _joystick;
         
-        public IJoystick Joystick => _joystick;
+        public IJoystick Joystick {
+            get {
+                if (!_isInputAvailable) {
+                    return default;
+                }
+                return _joystick;
+            }
+        }
+
+        public bool IsInputAvailable => _isInputAvailable;
 
         private void Awake() {
             _inputSources.Add(inputSourceFactory.Create());
@@ -65,6 +75,10 @@ namespace Foundation {
         
         public void UnregisterJoystick() {
             _joystick = null;
+        }
+
+        public void SetInputAvailable(bool isAvailable) {
+            _isInputAvailable = isAvailable;
         }
     }
 }
